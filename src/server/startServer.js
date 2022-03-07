@@ -3,16 +3,16 @@ const debug = require("debug")("drinkit:server");
 const startServer = (port, app) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
-      debug(
-        `Server listening on http://localhost${port === 80 ? "" : `:${port}`}`
-      );
+      const portString = port === 80 ? "" : `:${port}`;
+      debug(`Server listening on http://localhost${portString}`);
       resolve();
     });
 
     server.on("error", (error) => {
-      const errorMessage = `Couldn't start the server.${
-        error.code === "EADDRINUSE" ? ` Port ${port} in use` : ""
-      }`;
+      const messageString =
+        error.code === "EADDRINUSE" ? ` Port ${port} in use` : error.message;
+
+      const errorMessage = `Couldn't start the server. ${messageString}`;
       reject(new Error(errorMessage));
     });
   });
