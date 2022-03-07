@@ -17,4 +17,4 @@ const startServer = (port, app) =>
     });
   });
 
-export default startServer;
+module.exports = startServer;
