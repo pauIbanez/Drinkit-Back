@@ -1,32 +1,35 @@
 const { model, Schema, SchemaTypes } = require("mongoose");
 
-const RoomSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const RoomSchema = new Schema(
+  {
+    players: {
+      type: [SchemaTypes.ObjectId],
+      required: true,
+    },
+    game: {
+      type: SchemaTypes.ObjectId,
+      ref: "Game",
+      required: true,
+    },
+    inGame: {
+      type: Boolean,
+      default: false,
+    },
+    inLobby: {
+      type: Boolean,
+      default: true,
+    },
+
+    leader: {
+      type: SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  avatar: {
-    type: String,
-    required: true,
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  friends: {
-    type: [SchemaTypes.ObjectId],
-    ref: "User",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Room = model("Room", RoomSchema, "rooms");
 
