@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const User = require("../../../database/models/User");
 const register = require("./register");
 
@@ -82,6 +84,36 @@ describe("Given register controller", () => {
         code: 409,
         send: "email",
       };
+
+      const next = jest.fn();
+
+      await register(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When it's passed a req with a valid user and it gets created ok, but jwt fails", () => {
+    test("Then it should invoke next with the error and delete the created user", async () => {
+      const req = {
+        body: {
+          name,
+          lastName,
+          email,
+          username,
+          password,
+        },
+      };
+
+      const createdUser = { ...req.body, id: "32434524563sad213342hjgf" };
+
+      jwt.sign = jest.fn().mockImplementation(() => {
+        throw new Error("some error");
+      });
+      User.create = jest.fn().mockResolvedValue(createdUser);
+      User.findByIdAndDelete = jest.fn().mockResolvedValue();
+
+      const expectedError = new Error("some error");
 
       const next = jest.fn();
 
