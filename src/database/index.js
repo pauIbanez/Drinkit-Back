@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require("mongoose");
 const chalk = require("chalk");
-const debug = require("debug")("app:database");
+const debug = require("debug")("drinkit:database");
 
 const connectToDB = (connectionString) =>
   new Promise((resolve, reject) => {
