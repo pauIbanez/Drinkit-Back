@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const register = async (req, res, next) => {
   const { name, lastName, email, username, password } = req.body;
 

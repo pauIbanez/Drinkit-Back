@@ -23,6 +23,7 @@
     "mockingoose": "^2.15.2"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "debug": "^4.3.3",
