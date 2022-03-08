@@ -37,7 +37,7 @@ const register = async (req, res, next) => {
       createdUser.activationToken = activationToken;
       createdUser.save();
     } catch (err) {
-      User.findByIdAndDelete(createdUser.id);
+      await User.findByIdAndDelete(createdUser.id);
       next(err);
     }
     res.status(201).json({});
