@@ -43,7 +43,11 @@ const register = async (req, res, next) => {
     }
     res.status(201).json({});
   } catch (e) {
-    next(e);
+    const invalidUser = {
+      code: 409,
+      send: e.message.includes("username") ? "username" : "email",
+    };
+    next(invalidUser);
   }
 };
 

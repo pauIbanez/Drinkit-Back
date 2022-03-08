@@ -14,6 +14,7 @@ const userInfo = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   avatar: {
     type: SchemaTypes.ObjectId,
@@ -26,6 +27,7 @@ const userCredentials = new Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
