@@ -8,13 +8,13 @@ head>
   </style>
 </head>
 <div>
-  <h1>Welcome to We Robot</h1>
+  <h1>Welcome to Drink it!</h1>
   <p>Hello ${user},</p>
   <p>
-    Thank you for joining We Robot. Please visit the link bellow to activate
+    Thank you for joining Drink it. Please visit the link bellow to activate
     your user: ${username}.
   </p>
-  <a href="https://robots-pau-ibanez.netlify.app/users/activate/${activationToken}">Click here to activate ${username}</a>
+  <a href="https://https://drinkit-pau.netlify.app/users/activate/${activationToken}">Click here to activate ${username}</a>
 </div>
 `;
 
