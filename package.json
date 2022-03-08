@@ -40,7 +40,8 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
-      "!src/server/startServer.js"
+      "!src/server/startServer.js",
+      "!src/server/utils/email/index.js"
     ]
   }
 }
