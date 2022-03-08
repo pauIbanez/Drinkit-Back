@@ -41,6 +41,7 @@ const register = async (req, res, next) => {
       next(err);
       return;
     }
+
     res.status(201).json({});
   } catch (e) {
     const invalidUser = {
