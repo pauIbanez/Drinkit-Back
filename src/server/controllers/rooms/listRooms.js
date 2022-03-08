@@ -2,17 +2,19 @@ const Room = require("../../../database/models/Room");
 
 const listRooms = async (req, res, next) => {
   try {
-    const rooms = Room.find({
+    const rooms = await Room.find({
       $where: {
         isActive: true,
       },
-    });
+    }).populate();
 
     const roomsToSend = {
       rooms: [],
     };
+
     if (!rooms) {
       res.json(roomsToSend);
+      return;
     }
 
     roomsToSend.rooms = rooms;
