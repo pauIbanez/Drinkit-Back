@@ -27,10 +27,10 @@ const register = async (req, res, next) => {
 
     try {
       const activationToken = jwt.sign(
-        createdUser.id,
+        { id: createdUser.id },
         process.env.TOKEN_SECRET,
         {
-          expiresIn: "1d",
+          expiresIn: "2d",
         }
       );
 
@@ -39,6 +39,7 @@ const register = async (req, res, next) => {
     } catch (err) {
       await User.findByIdAndDelete(createdUser.id);
       next(err);
+      return;
     }
     res.status(201).json({});
   } catch (e) {

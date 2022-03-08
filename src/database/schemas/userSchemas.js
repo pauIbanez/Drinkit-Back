@@ -28,7 +28,7 @@ const userCredentials = new Schema({
     required: true,
   },
   password: {
-    type: Number,
+    type: String,
     required: true,
   },
 });
@@ -43,6 +43,11 @@ const userStats = new Schema({
     default: 0,
   },
 });
+
+const defaultStats = {
+  sips: 0,
+  games: 0,
+};
 
 const userProfile = new Schema({
   username: {
@@ -59,7 +64,7 @@ const userProfile = new Schema({
   },
   stats: {
     type: userStats,
-    required: true,
+    default: defaultStats,
   },
 });
 
