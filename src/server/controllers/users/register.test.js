@@ -59,4 +59,35 @@ describe("Given register controller", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
+
+  describe("When it's passed a req with a valid user but email is repeated", () => {
+    test("Then it should invoke next with the error 'email' and code 409", async () => {
+      const req = {
+        body: {
+          name,
+          lastName,
+          email,
+          username,
+          password,
+        },
+      };
+
+      User.create = jest
+        .fn()
+        .mockRejectedValue(
+          new Error("Path `email` is marked as unique o noseque")
+        );
+
+      const expectedError = {
+        code: 409,
+        send: "email",
+      };
+
+      const next = jest.fn();
+
+      await register(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
