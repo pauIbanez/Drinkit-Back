@@ -3,9 +3,7 @@ const Room = require("../../../database/models/Room");
 const listRooms = async (req, res, next) => {
   try {
     const rooms = await Room.find({
-      $where: {
-        isActive: true,
-      },
+      isActive: true,
     }).populate();
 
     const roomsToSend = {
