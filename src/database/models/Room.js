@@ -19,7 +19,10 @@ const RoomSchema = new Schema(
       type: Boolean,
       default: true,
     },
-
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
     leader: {
       type: SchemaTypes.ObjectId,
       ref: "User",
