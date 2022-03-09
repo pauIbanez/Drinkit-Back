@@ -31,7 +31,7 @@ afterEach(async () => {
   await User.deleteMany({});
 });
 
-describe("Given /users/register endpoint", () => {
+describe("Given /accounts/register endpoint", () => {
   describe("When it recieves a request with all valid data", () => {
     test("Then it should return a status of 201", async () => {
       const body = {
@@ -42,7 +42,7 @@ describe("Given /users/register endpoint", () => {
         password,
       };
 
-      await request(app).post("/users/register").send(body).expect(201);
+      await request(app).post("/accounts/register").send(body).expect(201);
     });
   });
 });
