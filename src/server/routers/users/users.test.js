@@ -45,4 +45,21 @@ describe("Given /accounts/register endpoint", () => {
       await request(app).post("/accounts/register").send(body).expect(201);
     });
   });
+
+  describe("When it recieves a request with invalid data", () => {
+    test("Then it should return a status of 400 and an erro rwiht the message 'Invalid user data'", async () => {
+      const body = {
+        name,
+        lastName,
+        password,
+      };
+      const expectedMessage = "Invalid user data";
+
+      const {
+        body: { message },
+      } = await request(app).post("/accounts/register").send(body).expect(400);
+
+      expect(message).toBe(expectedMessage);
+    });
+  });
 });
