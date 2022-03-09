@@ -5,6 +5,7 @@ const request = require("supertest");
 const app = require("../..");
 const connectToDB = require("../../../database");
 const User = require("../../../database/models/User");
+const generateUser = require("../../../utils/users/creation/generateUser");
 
 const name = "nein";
 const lastName = "lasname";
@@ -25,7 +26,11 @@ afterAll(async () => {
   await mongoServer.stop();
 });
 
-beforeEach(async () => {});
+beforeEach(async () => {
+  User.create(
+    generateUser(name, lastName, "some email", "some username", password)
+  );
+});
 
 afterEach(async () => {
   await User.deleteMany({});
@@ -58,6 +63,25 @@ describe("Given /accounts/register endpoint", () => {
       const {
         body: { message },
       } = await request(app).post("/accounts/register").send(body).expect(400);
+
+      expect(message).toBe(expectedMessage);
+    });
+  });
+
+  describe("When it recieves a request with valid data but the username is repeated", () => {
+    test("Then it should return a status of 409 and an erro with the message 'username'", async () => {
+      const body = {
+        name,
+        lastName,
+        email,
+        username: "some username",
+        password,
+      };
+      const expectedMessage = "username";
+
+      const {
+        body: { message },
+      } = await request(app).post("/accounts/register").send(body).expect(409);
 
       expect(message).toBe(expectedMessage);
     });
