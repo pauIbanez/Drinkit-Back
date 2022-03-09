@@ -20,7 +20,9 @@
     "eslint-plugin-import": "^2.25.4",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
-    "mockingoose": "^2.15.2"
+    "mockingoose": "^2.15.2",
+    "mongodb-memory-server": "^8.4.0",
+    "supertest": "^6.2.2"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -40,8 +42,7 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
-      "!src/server/startServer.js",
-      "!src/server/utils/email/index.js"
+      "!src/server/startServer.js"
     ]
   }
 }
