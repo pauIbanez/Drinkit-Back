@@ -17,8 +17,8 @@ const listRooms = async (req, res, next) => {
 
     roomsToSend.rooms = rooms;
     res.json(roomsToSend);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 };
 

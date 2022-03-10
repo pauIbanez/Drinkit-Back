@@ -6,6 +6,7 @@ const { notFoundError, errorHandler } = require("./middlewares/errors");
 
 const roomsRouter = require("./routers/rooms/rooms");
 const usersRouter = require("./routers/users/users");
+const gamesRouter = require("./routers/games/games");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use("/rooms", roomsRouter);
 app.use("/accounts", usersRouter);
+app.use("/games", gamesRouter);
 
 app.use(notFoundError);
 app.use(errorHandler);
