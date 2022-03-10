@@ -65,3 +65,16 @@ describe("Given /rooms/list endpoint", () => {
     });
   });
 });
+
+describe("Given /rooms/create endpoint", () => {
+  describe("When it recieves a request with a valid room", () => {
+    test("Then it should return a status of 201", async () => {
+      const room = {
+        leader: "622a0b309b056758689f06e9",
+        game: "6229dc199b056758689f06e6",
+      };
+
+      await request(app).post("/rooms/create").send(room).expect(201);
+    });
+  });
+});
