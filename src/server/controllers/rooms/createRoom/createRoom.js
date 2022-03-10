@@ -18,8 +18,7 @@ const createRoom = async (req, res, next) => {
     await Room.create(room);
     res.status(201).json({});
   } catch (e) {
-    const error = { ...e, code: 400, send: e.message };
-    next(error);
+    next(e);
   }
 };
 
