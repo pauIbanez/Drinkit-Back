@@ -12,9 +12,7 @@ const userValidator = (req, res, next) => {
   if (error) {
     error.code = 400;
 
-    error.send = `User validation error: ${error.details
-      .map((detail) => detail.path[0])
-      .join(", ")}`;
+    error.send = error.details.map((detail) => detail.message).join(", ");
     next(error);
     return;
   }
