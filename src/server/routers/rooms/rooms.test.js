@@ -77,4 +77,24 @@ describe("Given /rooms/create endpoint", () => {
       await request(app).post("/rooms/create").send(room).expect(201);
     });
   });
+
+  describe("When it recieves a request with a an invalid room", () => {
+    test("Then it should return a status of 400 with error true and a message containing 'game'", async () => {
+      const room = {
+        leader: "622a0b309b056758689f06e9",
+        game: "asdasda",
+      };
+      const expectedError = {
+        error: true,
+        code: 400,
+        message: expect.stringContaining("game"),
+      };
+      const { body } = await request(app)
+        .post("/rooms/create")
+        .send(room)
+        .expect(400);
+
+      expect(body).toEqual(expectedError);
+    });
+  });
 });
