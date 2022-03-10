@@ -4,7 +4,7 @@ const listRooms = async (req, res, next) => {
   try {
     const rooms = await Room.find({
       isActive: true,
-    }).populate("game");
+    }).populate("game leader");
 
     const roomsToSend = {
       rooms: [],
