@@ -9,7 +9,7 @@ const generateUser = require("../../../utils/users/creation/generateUser");
 
 const name = "nein";
 const lastName = "lasname";
-const email = "imail";
+const email = "imail@imail.com";
 const username = "usernaim";
 const password = "passguord";
 
@@ -52,19 +52,14 @@ describe("Given /accounts/register endpoint", () => {
   });
 
   describe("When it recieves a request with invalid data", () => {
-    test("Then it should return a status of 400 and an erro rwiht the message 'Invalid user data'", async () => {
+    test("Then it should return a status of 400", async () => {
       const body = {
         name,
         lastName,
+
         password,
       };
-      const expectedMessage = "Invalid user data";
-
-      const {
-        body: { message },
-      } = await request(app).post("/accounts/register").send(body).expect(400);
-
-      expect(message).toBe(expectedMessage);
+      await request(app).post("/accounts/register").send(body).expect(400);
     });
   });
 

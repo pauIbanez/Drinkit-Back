@@ -1,4 +1,4 @@
-const joiUser = require("../../joiSchemas/userSchema");
+const joiUser = require("../../../joiSchemas/userSchema");
 
 const userValidator = (req, res, next) => {
   const options = {
