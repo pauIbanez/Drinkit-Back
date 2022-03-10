@@ -1,6 +1,6 @@
 const mockingoose = require("mockingoose");
+const Room = require("../../../../database/models/Room");
 
-const Room = require("../../../database/models/Room");
 const listRooms = require("./listRooms");
 
 afterEach(() => {

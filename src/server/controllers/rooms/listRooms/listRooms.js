@@ -1,10 +1,8 @@
-const Room = require("../../../database/models/Room");
+const Room = require("../../../../database/models/Room");
 
 const listRooms = async (req, res, next) => {
   try {
-    const rooms = await Room.find({
-      isActive: true,
-    }).populate("game leader");
+    const rooms = await Room.find().populate("game leader");
 
     const roomsToSend = {
       rooms: [],
