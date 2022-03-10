@@ -1,4 +1,4 @@
-const Room = require("../../../database/models/Room");
+const Room = require("../../../../database/models/Room");
 
 const listRooms = async (req, res, next) => {
   try {
