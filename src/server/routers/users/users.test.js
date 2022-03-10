@@ -28,7 +28,13 @@ afterAll(async () => {
 
 beforeEach(async () => {
   User.create(
-    generateUser(name, lastName, "some email", "some username", password)
+    generateUser(
+      name,
+      lastName,
+      "someemail@some.email",
+      "someusername",
+      password
+    )
   );
 });
 
@@ -69,7 +75,7 @@ describe("Given /accounts/register endpoint", () => {
         name,
         lastName,
         email,
-        username: "some username",
+        username: "someusername",
         password,
       };
       const expectedMessage = "username";
