@@ -13,12 +13,12 @@ describe("Given listrGames controller", () => {
       const games = [
         {
           name: "asdasd",
-          description: "sadasda",
+          duration: 30,
           drunkness: "high",
         },
         {
           name: "asdasd",
-          description: "sadasasdasda",
+          duration: 30,
           drunkness: "medium",
         },
       ];
