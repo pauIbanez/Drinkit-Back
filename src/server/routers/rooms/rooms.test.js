@@ -60,8 +60,7 @@ afterEach(async () => {
 describe("Given /rooms/list endpoint", () => {
   describe("When it recieves a request ", () => {
     test("Then it should return a list of all rooms with status 200", async () => {
-      const body = await request(app).get("/rooms/list").expect(200);
-
+      const { body } = await request(app).get("/rooms/list").expect(200);
       expect(body.rooms).toHaveLength(1);
     });
   });
