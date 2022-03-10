@@ -11,4 +11,4 @@ const gameInfo = new Schema({
   },
 });
 
-export default gameInfo;
+module.exports = gameInfo;

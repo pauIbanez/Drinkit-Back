@@ -1,5 +1,5 @@
 const { model, Schema } = require("mongoose");
-const { default: gameInfo } = require("../schemas/gameSchemas");
+const gameInfo = require("../schemas/gameSchemas");
 
 const GameSchema = new Schema({
   name: {
