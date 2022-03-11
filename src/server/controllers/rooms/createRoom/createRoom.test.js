@@ -1,3 +1,4 @@
+const mockingoose = require("mockingoose/lib");
 const Room = require("../../../../database/models/Room");
 const createRoom = require("./createRoom");
 
@@ -18,7 +19,8 @@ describe("Given createRoom", () => {
         json: jest.fn(),
       };
 
-      Room.create = jest.fn().mockResolvedValue();
+      Room.create = jest.fn().mockResolvedValue({ id: "" });
+      mockingoose(Room).toReturn({}, "findById");
 
       await createRoom(req, res);
 
