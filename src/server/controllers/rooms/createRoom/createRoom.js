@@ -15,8 +15,8 @@ const createRoom = async (req, res, next) => {
   };
 
   try {
-    await Room.create(room);
-    res.status(201).json({});
+    const createdRoom = await Room.create(room);
+    res.status(201).json(createdRoom);
   } catch (e) {
     next(e);
   }
