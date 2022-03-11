@@ -15,7 +15,8 @@ const createRoom = async (req, res, next) => {
   };
 
   try {
-    const createdRoom = await Room.create(room);
+    const { id } = await Room.create(room);
+    const createdRoom = await Room.findById(id).populate("leader game");
     res.status(201).json(createdRoom);
   } catch (e) {
     next(e);
