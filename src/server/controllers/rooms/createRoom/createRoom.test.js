@@ -1,10 +1,10 @@
+const mockingoose = require("mockingoose/lib");
 const Room = require("../../../../database/models/Room");
 const createRoom = require("./createRoom");
 
 describe("Given createRoom", () => {
   describe("When it's instanciated passing a req with the roomData, and a res and create is ok", () => {
     test("When it should call res.status with 201 and res.json with an empty object", async () => {
-      const expectedResponse = {};
       const expectedCode = 201;
 
       const req = {
@@ -19,12 +19,13 @@ describe("Given createRoom", () => {
         json: jest.fn(),
       };
 
-      Room.create = jest.fn().mockResolvedValue();
+      Room.create = jest.fn().mockResolvedValue({ id: "" });
+      mockingoose(Room).toReturn({}, "findById");
 
       await createRoom(req, res);
 
       expect(res.status).toHaveBeenCalledWith(expectedCode);
-      expect(res.json).toHaveBeenCalledWith(expectedResponse);
+      expect(res.json).toHaveBeenCalled();
     });
   });
 
