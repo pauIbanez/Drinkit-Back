@@ -2,7 +2,7 @@ const chalk = require("chalk");
 const nodemailer = require("nodemailer");
 const debug = require("debug")("drinkit:mailservice");
 
-const { activationSubject } = require("./mailData");
+const { activationSubject } = require("./data/mailData");
 
 const config = {
   service: "gmail",
