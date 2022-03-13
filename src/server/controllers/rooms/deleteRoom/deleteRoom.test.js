@@ -35,6 +35,31 @@ describe("Given deleteRoom", () => {
         },
       };
 
+      const foundRoom = {
+        id: "roomId",
+      };
+
+      const next = jest.fn();
+
+      const generatedError = new Error("Some error");
+
+      Room.findOne = jest.fn().mockResolvedValue(foundRoom);
+      Room.findByIdAndDelete = jest.fn().mockRejectedValue(generatedError);
+
+      await deleteRoom(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(generatedError);
+    });
+  });
+
+  describe("when it recieves a req with the user and the room deletion fails", () => {
+    test("Then it should call next with the generated error", async () => {
+      const req = {
+        user: {
+          id: "userId",
+        },
+      };
+
       const next = jest.fn();
 
       const expectedError = {
@@ -42,7 +67,7 @@ describe("Given deleteRoom", () => {
         send: "No rooms found",
       };
 
-      Room.findOne = jest.fn().mockResolvedValue(null);
+      Room.findOne = jest.fn().mockResolvedValue();
 
       await deleteRoom(req, null, next);
 
