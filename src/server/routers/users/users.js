@@ -1,6 +1,6 @@
 const express = require("express");
+const register = require("../../controllers/users/register/register");
 
-const register = require("../../controllers/users/register");
 const userValidator = require("../../middlewares/joiValidators/userValidator/userValidator");
 
 const router = express.Router();

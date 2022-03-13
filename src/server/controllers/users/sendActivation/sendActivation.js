@@ -17,13 +17,17 @@ const sendActivation = async (req, res, next) => {
       }
     );
 
-    await sendEmail(
-      getActivationEmail(
+    const emailData = {
+      to: foundUser.info.email,
+      html: getActivationEmail(
         foundUser.info.name,
         foundUser.profile.username,
         activationToken
-      )
-    );
+      ),
+    };
+
+    await sendEmail(emailData);
+
     foundUser.activationToken = activationToken;
     foundUser.save();
   } catch (err) {
