@@ -17,6 +17,7 @@ const register = async (req, res, next) => {
     req.user = createdUser;
 
     res.status(201).json({});
+    next();
   } catch (e) {
     const invalidUser = {
       code: 409,

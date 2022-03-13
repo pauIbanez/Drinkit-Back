@@ -22,7 +22,6 @@ const accountsMail = {
 const sendEmail = (mail = {}) =>
   new Promise((resolve, reject) => {
     const emailToSend = { ...accountsMail, ...mail };
-
     transporter.sendMail(emailToSend, (error) => {
       if (error) {
         reject();

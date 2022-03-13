@@ -1,12 +1,18 @@
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const User = require("../../../../database/models/User");
 const sendActivation = require("./sendActivation");
 
-describe("Given sendActivation", () => {
-  const mockSendEmail = jest.fn();
-  jest.mock("../../../../utils/email", () => mockSendEmail);
+jest.mock("nodemailer", () => ({
+  createTransport: jest.fn().mockReturnValue({
+    sendMail: jest.fn().mockImplementation((a, cb) => {
+      cb();
+    }),
+  }),
+}));
 
+describe("Given sendActivation", () => {
   describe("When it's instanciated passing a req with a user and everything goes ok", () => {
     test("Then it should call the founduser.save function", async () => {
       const foundUser = {
@@ -27,6 +33,14 @@ describe("Given sendActivation", () => {
       };
 
       const next = jest.fn();
+
+      const transporter = {
+        sendMail: jest.fn().mockImplementation((mailData, cb) => {
+          cb();
+        }),
+      };
+
+      nodemailer.createTransport = jest.fn().mockReturnValue(transporter);
 
       User.findById = jest.fn().mockResolvedValue(foundUser);
       jwt.sign = jest.fn().mockReturnValue("token");
