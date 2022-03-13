@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
 
 const User = require("../../../../database/models/User");
 const sendActivation = require("./sendActivation");
@@ -34,14 +33,6 @@ describe("Given sendActivation", () => {
 
       const next = jest.fn();
 
-      const transporter = {
-        sendMail: jest.fn().mockImplementation((mailData, cb) => {
-          cb();
-        }),
-      };
-
-      nodemailer.createTransport = jest.fn().mockReturnValue(transporter);
-
       User.findById = jest.fn().mockResolvedValue(foundUser);
       jwt.sign = jest.fn().mockReturnValue("token");
 
@@ -50,6 +41,42 @@ describe("Given sendActivation", () => {
       expect(foundUser.save).toHaveBeenCalled();
       expect(foundUser.activationToken).toBe("token");
       expect(next).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("When it's instanciated passing a req with a user and something breaks", () => {
+    test("Then it should call call next wiht an error with message 'Activation email not send' and not call founduser.save", async () => {
+      const foundUser = {
+        profile: {
+          username: "username",
+        },
+        info: {
+          name: "user name",
+          email: "someemail@aaaaa.com",
+        },
+        save: jest.fn(),
+      };
+
+      const req = {
+        user: {
+          id: "userid",
+        },
+      };
+      const expectedError = {
+        send: "Activation email not send",
+      };
+
+      const next = jest.fn();
+
+      User.findById = jest.fn().mockResolvedValue(foundUser);
+      jwt.sign = jest.fn().mockImplementation(() => {
+        throw new Error("some error");
+      });
+
+      await sendActivation(req, null, next);
+
+      expect(foundUser.save).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
