@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const User = require("../../../database/models/User");
+const User = require("../../../../database/models/User");
+const sendEmail = require("../../../../utils/email");
+const { getActivationEmail } = require("../../../../utils/email/mailData");
 
 const sendActivation = async (req, res, next) => {
   const { user } = req;
@@ -15,6 +17,13 @@ const sendActivation = async (req, res, next) => {
       }
     );
 
+    await sendEmail(
+      getActivationEmail(
+        foundUser.info.name,
+        foundUser.profile.username,
+        activationToken
+      )
+    );
     foundUser.activationToken = activationToken;
     foundUser.save();
   } catch (err) {
