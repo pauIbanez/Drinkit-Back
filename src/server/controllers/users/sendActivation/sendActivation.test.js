@@ -44,7 +44,7 @@ describe("Given sendActivation", () => {
     });
   });
 
-  describe("When it's instanciated passing a req with a user and something breaks wile ", () => {
+  describe("When it's instanciated passing a req with a user and something breaks while user isRegister ", () => {
     test("Then it should call the foundById and delete method of the user and not call founduser.save", async () => {
       const foundUser = {
         profile: {
@@ -74,6 +74,37 @@ describe("Given sendActivation", () => {
 
       expect(foundUser.save).not.toHaveBeenCalled();
       expect(User.findByIdAndDelete).toHaveBeenCalledWith(req.user.id);
+    });
+  });
+
+  describe("When it's instanciated passing a req with a user and something breaks while user is not register ", () => {
+    test("Then it should not call founduser.save", async () => {
+      const foundUser = {
+        profile: {
+          username: "username",
+        },
+        info: {
+          name: "user name",
+          email: "someemail@aaaaa.com",
+        },
+        save: jest.fn(),
+      };
+
+      const req = {
+        user: {
+          id: "userid",
+        },
+      };
+
+      User.findById = jest.fn().mockResolvedValue(foundUser);
+      User.findByIdAndDelete = jest.fn().mockResolvedValue();
+      jwt.sign = jest.fn().mockImplementation(() => {
+        throw new Error("some error");
+      });
+
+      await sendActivation(req);
+
+      expect(foundUser.save).not.toHaveBeenCalled();
     });
   });
 });
