@@ -45,7 +45,8 @@
       "src/**/*.js",
       "!src/index.js",
       "!src/server/startServer.js",
-      "!src/database/index.js"
+      "!src/database/index.js",
+      "!src/utils/email/index.js"
     ]
   }
 }

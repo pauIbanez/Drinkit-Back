@@ -3,7 +3,7 @@ const User = require("../../../../database/models/User");
 const sendEmail = require("../../../../utils/email");
 const { getActivationEmail } = require("../../../../utils/email/data/mailData");
 
-const sendActivation = async (req, res, next) => {
+const sendActivation = async (req) => {
   const { user } = req;
 
   try {
@@ -31,10 +31,9 @@ const sendActivation = async (req, res, next) => {
     foundUser.activationToken = activationToken;
     foundUser.save();
   } catch (err) {
-    const error = {
-      send: "Activation email not send",
-    };
-    next(error);
+    if (req.user.isRegister) {
+      await User.findByIdAndDelete(req.user.id);
+    }
   }
 };
 

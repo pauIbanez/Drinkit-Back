@@ -44,8 +44,8 @@ describe("Given sendActivation", () => {
     });
   });
 
-  describe("When it's instanciated passing a req with a user and something breaks", () => {
-    test("Then it should call call next wiht an error with message 'Activation email not send' and not call founduser.save", async () => {
+  describe("When it's instanciated passing a req with a user and something breaks wile ", () => {
+    test("Then it should call the foundById and delete method of the user and not call founduser.save", async () => {
       const foundUser = {
         profile: {
           username: "username",
@@ -60,23 +60,20 @@ describe("Given sendActivation", () => {
       const req = {
         user: {
           id: "userid",
+          isRegister: true,
         },
       };
-      const expectedError = {
-        send: "Activation email not send",
-      };
-
-      const next = jest.fn();
 
       User.findById = jest.fn().mockResolvedValue(foundUser);
+      User.findByIdAndDelete = jest.fn().mockResolvedValue();
       jwt.sign = jest.fn().mockImplementation(() => {
         throw new Error("some error");
       });
 
-      await sendActivation(req, null, next);
+      await sendActivation(req);
 
       expect(foundUser.save).not.toHaveBeenCalled();
-      expect(next).toHaveBeenCalledWith(expectedError);
+      expect(User.findByIdAndDelete).toHaveBeenCalledWith(req.user.id);
     });
   });
 });

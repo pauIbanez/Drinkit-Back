@@ -15,6 +15,7 @@ const register = async (req, res, next) => {
     const createdUser = await User.create(user);
 
     req.user = createdUser;
+    req.user.isRegister = true;
 
     res.status(201).json({});
     next();
