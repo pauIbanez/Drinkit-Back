@@ -1,6 +1,4 @@
-const jwt = require("jsonwebtoken");
-
-const User = require("../../../database/models/User");
+const User = require("../../../../database/models/User");
 const register = require("./register");
 
 describe("Given register controller", () => {
@@ -72,8 +70,8 @@ describe("Given register controller", () => {
     });
   });
 
-  describe("When it's passed a req with a valid user and it gets created ok, but jwt fails", () => {
-    test("Then it should invoke next with the error and delete the created user", async () => {
+  describe("When it's passed a req with a valid userand everything ok", () => {
+    test("Then it should invoke res.status with code 201 and res.json with an empty object and next with nothing", async () => {
       const req = {
         body: {
           name,
@@ -83,37 +81,8 @@ describe("Given register controller", () => {
           password,
         },
       };
-
-      const createdUser = { ...req.body, id: "32434524563sad213342hjgf" };
-
-      jwt.sign = jest.fn().mockImplementation(() => {
-        throw new Error("some error");
-      });
-      User.create = jest.fn().mockResolvedValue(createdUser);
-      User.findByIdAndDelete = jest.fn().mockResolvedValue();
-
-      const expectedError = new Error("some error");
 
       const next = jest.fn();
-
-      await register(req, null, next);
-
-      expect(next).toHaveBeenCalledWith(expectedError);
-      jest.resetAllMocks();
-    });
-  });
-
-  describe("When it's passed a req with a valid userand everything ok", () => {
-    test("Then it should invoke res.status with code 201 and res.json with an empty object", async () => {
-      const req = {
-        body: {
-          name,
-          lastName,
-          email,
-          username,
-          password,
-        },
-      };
 
       const createdUser = {
         ...req.body,
@@ -131,10 +100,11 @@ describe("Given register controller", () => {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
-      await register(req, res, null);
+      await register(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(expectedCode);
       expect(res.json).toHaveBeenCalledWith(expectedJSON);
+      expect(next).toHaveBeenCalledWith();
     });
   });
 });

@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
-const User = require("../../../database/models/User");
-const generateUser = require("../../../utils/users/creation/generateUser");
+const User = require("../../../../database/models/User");
+const generateUser = require("../../../../utils/users/creation/generateUser");
 
 const register = async (req, res, next) => {
   const { name, lastName, email, username, password } = req.body;
@@ -15,24 +14,11 @@ const register = async (req, res, next) => {
   try {
     const createdUser = await User.create(user);
 
-    try {
-      const activationToken = jwt.sign(
-        { id: createdUser.id },
-        process.env.TOKEN_SECRET,
-        {
-          expiresIn: "2d",
-        }
-      );
-
-      createdUser.activationToken = activationToken;
-      createdUser.save();
-    } catch (err) {
-      await User.findByIdAndDelete(createdUser.id);
-      next(err);
-      return;
-    }
+    req.user = createdUser;
+    req.user.isRegister = true;
 
     res.status(201).json({});
+    next();
   } catch (e) {
     const invalidUser = {
       code: 409,
