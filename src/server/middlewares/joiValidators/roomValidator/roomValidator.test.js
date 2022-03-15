@@ -27,7 +27,7 @@ describe("Given roomValidator", () => {
 
       const expectedError = expect.objectContaining({
         code: 400,
-        send: expect.stringContaining("leader"),
+        send: expect.stringContaining("game"),
       });
 
       roomValidator(req, null, next);

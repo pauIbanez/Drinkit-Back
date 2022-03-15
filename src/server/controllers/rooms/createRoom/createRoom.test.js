@@ -9,8 +9,10 @@ describe("Given createRoom", () => {
 
       const req = {
         body: {
-          leader: "sadasdas890dsa89d",
           game: "8796ahsaiudas876",
+        },
+        user: {
+          id: "sadasdas890dsa89d",
         },
       };
 
@@ -35,8 +37,10 @@ describe("Given createRoom", () => {
 
       const req = {
         body: {
-          leader: "sadasdas890dsa89d",
           game: "8796ahsaiudas876",
+        },
+        user: {
+          id: "sadasdas890dsa89d",
         },
       };
 
