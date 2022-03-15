@@ -9,7 +9,7 @@ const validateCreate = require("../../middlewares/validateCreate/validateCreate"
 const router = express.Router();
 
 router.get("/list", listRooms);
-router.post("/create", roomValidator, validateCreate, createRoom);
+router.post("/create", placeholder, roomValidator, validateCreate, createRoom);
 router.delete("/delete", placeholder, deleteRoom);
 
 module.exports = router;
