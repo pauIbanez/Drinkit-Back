@@ -7,11 +7,12 @@ const Room = require("../../../../database/models/Room");
 
 const createRoom = async (req, res, next) => {
   const roomData = req.body;
+  const { user } = req;
 
   const room = {
     players: [],
     game: roomData.game,
-    leader: roomData.leader,
+    leader: user.id,
   };
 
   try {
