@@ -3,6 +3,8 @@ name: Testing on push
 on: push
 env:
   TOKEN_SECRET: ${{secrets.TOKEN_SECRET}}
+  EMAIL: ${{secrets.EMAIL}}
+  EMAIL_PASSWORD: ${{secrets.EMAIL_PASSWORD}}
 
 jobs:
   test:
