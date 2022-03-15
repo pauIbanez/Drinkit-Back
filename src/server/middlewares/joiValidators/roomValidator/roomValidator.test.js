@@ -6,7 +6,6 @@ describe("Given roomValidator", () => {
       const next = jest.fn();
       const req = {
         body: {
-          leader: "622a0b309b056758689f06e9",
           game: "622a0b309b056758689f06e9",
         },
       };
@@ -17,13 +16,12 @@ describe("Given roomValidator", () => {
     });
   });
 
-  describe("When it's called passing a room with incorrect leader", () => {
-    test("Then it should call next with an error containing leader and code 400", () => {
+  describe("When it's called passing a room with incorrect game", () => {
+    test("Then it should call next with an error containing game and code 400", () => {
       const next = jest.fn();
       const req = {
         body: {
-          leader: "invalid id",
-          game: "622a0b309b056758689f06e9",
+          game: "invalid id",
         },
       };
 

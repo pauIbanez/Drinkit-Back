@@ -2,11 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const { default: helmet } = require("helmet");
-const { notFoundError, errorHandler } = require("./middlewares/errors");
 
 const roomsRouter = require("./routers/rooms/rooms");
 const usersRouter = require("./routers/users/users");
 const gamesRouter = require("./routers/games/games");
+const { notFoundError, errorHandler } = require("./middlewares/errors/errors");
 
 const app = express();
 

@@ -3,7 +3,7 @@ const Room = require("../../../database/models/Room");
 const validateCreate = async (req, res, next) => {
   const { user } = req;
 
-  const foundRoom = Room.findOne({ leader: user.id });
+  const foundRoom = await Room.findOne({ leader: user.id });
 
   if (foundRoom) {
     const error = {
