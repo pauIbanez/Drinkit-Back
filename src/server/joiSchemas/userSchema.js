@@ -4,7 +4,7 @@ const joiUser = Joi.object({
   name: Joi.string().min(2).max(10).required(),
   lastName: Joi.string().min(2).max(10).required(),
   email: Joi.string().email().required(),
-  username: Joi.string().min(2).max(10).alphanum().required(),
+  username: Joi.string().min(5).max(10).alphanum().required(),
   password: Joi.string().min(8).required(),
 });
 
