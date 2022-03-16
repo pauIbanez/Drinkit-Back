@@ -12,7 +12,10 @@ const login = async (req, res, next) => {
   };
 
   const userExists = await User.findOne({
-    $or: { username: user.username, email: user.username },
+    $or: [
+      { "credentials.username": user.username },
+      { "info.email": user.username },
+    ],
   });
 
   if (!userExists) {
@@ -20,7 +23,10 @@ const login = async (req, res, next) => {
     return;
   }
 
-  const valid = bcrypt.compare(user.password, userExists.credentials.password);
+  const valid = await bcrypt.compare(
+    user.password,
+    userExists.credentials.password
+  );
 
   if (!valid) {
     next(error);

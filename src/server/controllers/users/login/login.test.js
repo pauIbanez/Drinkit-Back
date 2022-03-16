@@ -29,7 +29,7 @@ describe("Given login", () => {
       };
 
       User.findOne = jest.fn().mockResolvedValue(foundUser);
-      bcrypt.compare = jest.fn().mockReturnValue(true);
+      bcrypt.compare = jest.fn().mockResolvedValue(true);
 
       await login(req, res);
 
@@ -85,7 +85,7 @@ describe("Given login", () => {
       };
 
       User.findOne = jest.fn().mockResolvedValue(foundUser);
-      bcrypt.compare = jest.fn().mockReturnValue(false);
+      bcrypt.compare = jest.fn().mockResolvedValue(false);
 
       await login(req, null, next);
 
