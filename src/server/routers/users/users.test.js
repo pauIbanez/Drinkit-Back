@@ -40,6 +40,18 @@ beforeEach(async () => {
     active: false,
     activationToken: "token",
   });
+
+  User.create({
+    _id: "622f00e91e85099995d63b04",
+    ...generateUser(
+      name,
+      lastName,
+      "sadasd@some.email",
+      "useusernameusernamername",
+      password
+    ),
+    active: true,
+  });
 });
 
 afterEach(async () => {
@@ -100,6 +112,41 @@ describe("Given /accounts/activate/:activationToken endpoint", () => {
         .fn()
         .mockReturnValue({ id: "622f00e91e85099995d63b07" });
       await request(app).get("/accounts/activate/token").expect(200);
+
+      const foundUser = await User.findById("622f00e91e85099995d63b07");
+
+      expect(foundUser.active).toBe(true);
+      expect(foundUser.activationToken).toBe(undefined);
+    });
+  });
+
+  describe("When it recieves a valid token and the user is not found", () => {
+    test("Then it should return a 404 status and message 'User not found'", async () => {
+      const expectedMessage = "User not found";
+
+      jwt.verify = jest
+        .fn()
+        .mockReturnValue({ id: "622f00e91e85099995d63b06" });
+      const {
+        body: { message },
+      } = await request(app).get("/accounts/activate/token").expect(404);
+
+      expect(message).toBe(expectedMessage);
+    });
+  });
+
+  describe("When it recieves a valid token and the user is already", () => {
+    test("Then it should return a 400 status and message 'This user is already activated'", async () => {
+      const expectedMessage = "This user is already activated";
+
+      jwt.verify = jest
+        .fn()
+        .mockReturnValue({ id: "622f00e91e85099995d63b04" });
+      const {
+        body: { message },
+      } = await request(app).get("/accounts/activate/token").expect(400);
+
+      expect(message).toBe(expectedMessage);
     });
   });
 });
