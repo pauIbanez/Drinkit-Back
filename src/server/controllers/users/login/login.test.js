@@ -36,4 +36,28 @@ describe("Given login", () => {
       expect(res.json).toHaveBeenCalledWith(expectedRes);
     });
   });
+
+  describe("When it's passed a username that does not exist", () => {
+    test("Then it should call next with an error with code 401 and message 'Incorrect username or password'", async () => {
+      const req = {
+        body: {
+          username: "username",
+          password: "password",
+        },
+      };
+
+      const next = jest.fn();
+
+      const expectedError = {
+        code: 401,
+        send: "Incorrect username or password",
+      };
+
+      User.findOne = jest.fn().mockResolvedValue(null);
+
+      await login(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
