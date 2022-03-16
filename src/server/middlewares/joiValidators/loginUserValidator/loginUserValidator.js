@@ -1,6 +1,6 @@
 const JoiLoginUser = require("../../../joiSchemas/loginSchema");
 
-const userValidator = (req, res, next) => {
+const loginUserValidator = (req, res, next) => {
   const options = {
     abortEarly: false,
     allowUnknown: true,
@@ -12,7 +12,7 @@ const userValidator = (req, res, next) => {
   if (error) {
     error.code = 400;
 
-    error.send = error.details.map((detail) => detail.message).join(", ");
+    error.send = "Invalid user data";
     next(error);
     return;
   }
@@ -21,4 +21,4 @@ const userValidator = (req, res, next) => {
   next();
 };
 
-module.exports = userValidator;
+module.exports = loginUserValidator;
