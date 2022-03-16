@@ -14,7 +14,7 @@ const activate = async (req, res, next) => {
     if (activeUser) {
       const error = {
         code: 400,
-        send: "User already active or not found",
+        send: "This user is already activated",
       };
       next(error);
       return;

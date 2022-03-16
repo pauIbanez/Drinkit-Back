@@ -26,4 +26,51 @@ describe("Given activate", () => {
       expect(res.json).toHaveBeenCalledWith(expectedResult);
     });
   });
+
+  describe("When it's instanciated with a req with params with an invalid token", () => {
+    test("Then it should call next with an error with code 400 and message 'Invalid activation token'", async () => {
+      const req = {
+        params: {
+          activationToken: "invalid token",
+        },
+      };
+      const next = jest.fn();
+
+      const expectedError = {
+        code: 400,
+        send: "Invalid activation token",
+      };
+
+      jwt.verify = jest.fn().mockImplementation(() => {
+        throw new Error("jwt malformed");
+      });
+
+      await activate(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When it's instanciated with a req with params but the user has already been activated", () => {
+    test("Then it should call next with an error with code 400 and message 'This user is already activated'", async () => {
+      const req = {
+        params: {
+          activationToken: "token",
+        },
+      };
+      const next = jest.fn();
+
+      const expectedError = {
+        code: 400,
+        send: "This user is already activated",
+      };
+
+      jwt.verify = jest.fn().mockReturnValue({ id: "userId" });
+      User.findById = jest.fn().mockResolvedValue("some user");
+
+      await activate(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
