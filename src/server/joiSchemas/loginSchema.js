@@ -1,8 +1,8 @@
 const { Joi } = require("express-validation");
 
-const loginUser = Joi.object({
+const JoiLoginUser = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
 
-module.exports = loginUser;
+module.exports = JoiLoginUser;
