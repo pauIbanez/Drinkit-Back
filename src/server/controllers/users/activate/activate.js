@@ -9,9 +9,18 @@ const activate = async (req, res, next) => {
   try {
     const { id: userId } = jwt.verify(activationToken, secret);
 
-    const activeUser = await User.findById(userId, { active: true });
+    const foundUser = await User.findById(userId);
 
-    if (activeUser) {
+    if (!foundUser) {
+      const error = {
+        code: 404,
+        send: "User not found",
+      };
+      next(error);
+      return;
+    }
+
+    if (foundUser.active === true) {
       const error = {
         code: 400,
         send: "This user is already activated",

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { default: mongoose } = require("mongoose");
 const request = require("supertest");
@@ -27,9 +28,18 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  User.create(
-    generateUser(name, lastName, "someemail@some.email", "username", password)
-  );
+  User.create({
+    _id: "622f00e91e85099995d63b07",
+    ...generateUser(
+      name,
+      lastName,
+      "someemail@some.email",
+      "username",
+      password
+    ),
+    active: false,
+    activationToken: "token",
+  });
 });
 
 afterEach(async () => {
@@ -79,6 +89,17 @@ describe("Given /accounts/register endpoint", () => {
       } = await request(app).post("/accounts/register").send(body).expect(409);
 
       expect(message).toBe(expectedMessage);
+    });
+  });
+});
+
+describe("Given /accounts/activate/:activationToken endpoint", () => {
+  describe("When it recieves a valid token and everything is ok", () => {
+    test("Then it should return a 200 status and activate the user in the database", async () => {
+      jwt.verify = jest
+        .fn()
+        .mockReturnValue({ id: "622f00e91e85099995d63b07" });
+      await request(app).get("/accounts/activate/token").expect(200);
     });
   });
 });

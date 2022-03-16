@@ -18,7 +18,9 @@ describe("Given activate", () => {
       const expectedResult = {};
 
       jwt.verify = jest.fn().mockReturnValue({ id: "userId" });
-      User.findById = jest.fn().mockResolvedValue(null);
+      User.findById = jest
+        .fn()
+        .mockResolvedValue({ id: "userId", active: false });
       User.findByIdAndUpdate = jest.fn().mockResolvedValue();
 
       await activate(req, res);
@@ -66,7 +68,32 @@ describe("Given activate", () => {
       };
 
       jwt.verify = jest.fn().mockReturnValue({ id: "userId" });
-      User.findById = jest.fn().mockResolvedValue("some user");
+      User.findById = jest
+        .fn()
+        .mockResolvedValue({ id: "userId", active: true });
+
+      await activate(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When it's instanciated with a req with params but the user does not exist", () => {
+    test("Then it should call next with an error with code 404 and message 'User not found'", async () => {
+      const req = {
+        params: {
+          activationToken: "token",
+        },
+      };
+      const next = jest.fn();
+
+      const expectedError = {
+        code: 404,
+        send: "User not found",
+      };
+
+      jwt.verify = jest.fn().mockReturnValue({ id: "userId" });
+      User.findById = jest.fn().mockResolvedValue(null);
 
       await activate(req, null, next);
 
