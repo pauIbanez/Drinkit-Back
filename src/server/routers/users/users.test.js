@@ -56,6 +56,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await User.deleteMany({});
+  jest.resetAllMocks();
 });
 
 describe("Given /accounts/register endpoint", () => {
@@ -135,13 +136,25 @@ describe("Given /accounts/activate/:activationToken endpoint", () => {
     });
   });
 
-  describe("When it recieves a valid token and the user is already", () => {
+  describe("When it recieves a valid token and the user is already activated", () => {
     test("Then it should return a 400 status and message 'This user is already activated'", async () => {
       const expectedMessage = "This user is already activated";
 
       jwt.verify = jest
         .fn()
         .mockReturnValue({ id: "622f00e91e85099995d63b04" });
+      const {
+        body: { message },
+      } = await request(app).get("/accounts/activate/token").expect(400);
+
+      expect(message).toBe(expectedMessage);
+    });
+  });
+
+  describe("When it recieves an invalid token", () => {
+    test("Then it should return a 400 status and message 'Invalid activation token'", async () => {
+      const expectedMessage = "Invalid activation token";
+
       const {
         body: { message },
       } = await request(app).get("/accounts/activate/token").expect(400);
