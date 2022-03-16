@@ -6,21 +6,33 @@ const secret = process.env.TOKEN_SECRET;
 const activate = async (req, res, next) => {
   const { activationToken } = req.params;
 
-  const object = jwt.verify(activationToken, secret);
-  console.log(object);
+  try {
+    const { id: userId } = jwt.verify(activationToken, secret);
 
-  // if (!valid) {
-  //   const error = {
-  //     code: 403,
-  //     send: "Invalid activation token",
-  //   };
-  //   next(error);
-  //   return;
-  // }
+    const activeUser = await User.findById(userId, { active: true });
 
-  // await User.findByIdAndUpdate(userId);
+    if (activeUser) {
+      const error = {
+        code: 400,
+        send: "User already active or not found",
+      };
+      next(error);
+      return;
+    }
 
-  res.json({});
+    await User.findByIdAndUpdate(userId, {
+      active: true,
+      $unset: { activationToken },
+    });
+
+    res.json({});
+  } catch (e) {
+    const error = {
+      code: 400,
+      send: "Invalid activation token",
+    };
+    next(error);
+  }
 };
 
 module.exports = activate;
