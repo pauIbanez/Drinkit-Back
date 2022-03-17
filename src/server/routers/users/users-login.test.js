@@ -8,17 +8,20 @@ const connectToDB = require("../../../database");
 const User = require("../../../database/models/User");
 const generateUser = require("../../../utils/users/creation/generateUser");
 
+let originalEnv;
 let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const connectionString = mongoServer.getUri();
-
+  originalEnv = { ...process.env };
+  process.env.TOKEN_SECRET = "secret";
   await connectToDB(connectionString);
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
   await mongoServer.stop();
+  process.env = originalEnv;
 });
 
 beforeEach(async () => {
