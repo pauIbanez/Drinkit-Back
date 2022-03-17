@@ -26,7 +26,7 @@ beforeEach(async () => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  User.create({
+  await User.create({
     _id: "622f00e91e85099995d63b07",
     ...generateUser(
       "naim",
