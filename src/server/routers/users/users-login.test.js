@@ -58,4 +58,24 @@ describe("Given /accounts/login endpoint", () => {
       expect(token).toBeTruthy();
     });
   });
+
+  describe("When it's passed invalid data", () => {
+    test("Then it should return 400 and an error with message 'Invalid user data'", async () => {
+      const user = {
+        username: "username",
+      };
+
+      const expectedBody = {
+        error: true,
+        code: 400,
+        message: "Invalid user data",
+      };
+      const { body } = await request(app)
+        .post("/accounts/login")
+        .send(user)
+        .expect(400);
+
+      expect(body).toEqual(expectedBody);
+    });
+  });
 });
