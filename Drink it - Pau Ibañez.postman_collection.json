@@ -1,183 +1,153 @@
 {
-	"info": {
-		"_postman_id": "231c1b4f-ab47-403d-a68a-80fb759e111f",
-		"name": "Drink it - Pau Ibañez",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"pablo\",\r\n    \"lastName\": \"sadaasd\",\r\n    \"email\": \"asdasdasdaa@dfsda.com\",\r\n    \"username\": \"asadadsf\",\r\n    \"password\": \"daasdasdas\"\r\n\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{address}}accounts/register",
-					"host": [
-						"{{address}}accounts"
-					],
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"pauibanez2001@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{address}}accounts/login",
-					"host": [
-						"{{address}}accounts"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Activate user",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{address}}accounts/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzFmZjU4YzQ5ZTYwNTI2NTJkNTFjMCIsImlhdCI6MTY0NzQ0MzgwMCwiZXhwIjoxNjQ3NjE2NjAwfQ.ALzupsagFQf1GVj3VK1esvnnij4_j01pLOBvw5-n-Lg",
-					"host": [
-						"{{address}}accounts"
-					],
-					"path": [
-						"activate",
-						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzFmZjU4YzQ5ZTYwNTI2NTJkNTFjMCIsImlhdCI6MTY0NzQ0MzgwMCwiZXhwIjoxNjQ3NjE2NjAwfQ.ALzupsagFQf1GVj3VK1esvnnij4_j01pLOBvw5-n-Lg"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GamesList",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{address}}games/list",
-					"host": [
-						"{{address}}games"
-					],
-					"path": [
-						"list"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "RoomsList",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{address}}rooms/list",
-					"host": [
-						"{{address}}rooms"
-					],
-					"path": [
-						"list"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create Room",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"game\": \"6229dc199b056758689f06e6\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{address}}rooms/create",
-					"host": [
-						"{{address}}rooms"
-					],
-					"path": [
-						"create"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Room",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{address}}rooms/delete",
-					"host": [
-						"{{address}}rooms"
-					],
-					"path": [
-						"delete"
-					]
-				}
-			},
-			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "address",
-			"value": "https://drinkit-back.onrender.com/",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "231c1b4f-ab47-403d-a68a-80fb759e111f",
+    "name": "Drink it - Pau Ibañez",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"pablo\",\r\n    \"lastName\": \"sadaasd\",\r\n    \"email\": \"asdasdasdaa@dfsda.com\",\r\n    \"username\": \"asadadsf\",\r\n    \"password\": \"daasdasdas\"\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{address}}accounts/register",
+          "host": ["{{address}}accounts"],
+          "path": ["register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\": \"pauibanez2001@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{address}}accounts/login",
+          "host": ["{{address}}accounts"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Activate user",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{address}}accounts/activate/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzFmZjU4YzQ5ZTYwNTI2NTJkNTFjMCIsImlhdCI6MTY0NzQ0MzgwMCwiZXhwIjoxNjQ3NjE2NjAwfQ.ALzupsagFQf1GVj3VK1esvnnij4_j01pLOBvw5-n-Lg",
+          "host": ["{{address}}accounts"],
+          "path": [
+            "activate",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzFmZjU4YzQ5ZTYwNTI2NTJkNTFjMCIsImlhdCI6MTY0NzQ0MzgwMCwiZXhwIjoxNjQ3NjE2NjAwfQ.ALzupsagFQf1GVj3VK1esvnnij4_j01pLOBvw5-n-Lg"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GamesList",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{address}}games/list",
+          "host": ["{{address}}games"],
+          "path": ["list"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RoomsList",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{address}}rooms/list",
+          "host": ["{{address}}rooms"],
+          "path": ["list"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Room",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"game\": \"6229dc199b056758689f06e6\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{address}}rooms/create",
+          "host": ["{{address}}rooms"],
+          "path": ["create"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Room",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{address}}rooms/delete",
+          "host": ["{{address}}rooms"],
+          "path": ["delete"]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "address",
+      "value": "https://drinkit-back.onrender.com/",
+      "type": "string"
+    }
+  ]
 }
