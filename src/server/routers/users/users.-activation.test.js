@@ -1,18 +1,13 @@
 require("dotenv").config();
-const jwt = require("jsonwebtoken");
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
 const request = require("supertest");
 const app = require("../..");
 const connectToDB = require("../../../database");
 const User = require("../../../database/models/User");
 const generateUser = require("../../../utils/users/creation/generateUser");
-
-const name = "nein";
-const lastName = "lasname";
-const email = "imail@imail.com";
-const username = "usernaim";
-const password = "passguord";
 
 let mongoServer;
 beforeAll(async () => {
@@ -28,27 +23,29 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  User.create({
+  const password = "passguord";
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  await User.create({
     _id: "622f00e91e85099995d63b07",
     ...generateUser(
-      name,
-      lastName,
+      "naim",
+      "lastName",
       "someemail@some.email",
       "username",
-      password
+      hashedPassword
     ),
     active: false,
-    activationToken: "token",
   });
-
-  User.create({
+  await User.create({
     _id: "622f00e91e85099995d63b04",
     ...generateUser(
-      name,
-      lastName,
-      "sadasd@some.email",
-      "useusernameusernamername",
-      password
+      "naim",
+      "lastName",
+      "someothermeil@some.email",
+      "usernaim",
+      hashedPassword
     ),
     active: true,
   });
@@ -57,53 +54,6 @@ beforeEach(async () => {
 afterEach(async () => {
   await User.deleteMany({});
   jest.resetAllMocks();
-});
-
-describe("Given /accounts/register endpoint", () => {
-  describe("When it recieves a request with all valid data", () => {
-    test("Then it should return a status of 201", async () => {
-      const body = {
-        name,
-        lastName,
-        email,
-        username,
-        password,
-      };
-
-      await request(app).post("/accounts/register").send(body).expect(201);
-    });
-  });
-
-  describe("When it recieves a request with invalid data", () => {
-    test("Then it should return a status of 400", async () => {
-      const body = {
-        name,
-        lastName,
-
-        password,
-      };
-      await request(app).post("/accounts/register").send(body).expect(400);
-    });
-  });
-
-  describe("When it recieves a request with valid data but the username is repeated", () => {
-    test("Then it should return a status of 409 and an erro with the message 'username'", async () => {
-      const body = {
-        name,
-        lastName,
-        email,
-        username: "username",
-        password,
-      };
-      const expectedMessage = "username";
-
-      const {
-        body: { message },
-      } = await request(app).post("/accounts/register").send(body).expect(409);
-
-      expect(message).toBe(expectedMessage);
-    });
-  });
 });
 
 describe("Given /accounts/activate/:activationToken endpoint", () => {
