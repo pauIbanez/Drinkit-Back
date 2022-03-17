@@ -78,4 +78,46 @@ describe("Given /accounts/login endpoint", () => {
       expect(body).toEqual(expectedBody);
     });
   });
+
+  describe("When it's passed an invalid user", () => {
+    test("Then it should return 401 and an error with message 'Incorrect username or password'", async () => {
+      const user = {
+        username: "username2",
+        password: "passguord",
+      };
+
+      const expectedBody = {
+        error: true,
+        code: 401,
+        message: "Incorrect username or password",
+      };
+      const { body } = await request(app)
+        .post("/accounts/login")
+        .send(user)
+        .expect(401);
+
+      expect(body).toEqual(expectedBody);
+    });
+  });
+
+  describe("When it's passed an invalid password", () => {
+    test("Then it should return 401 and an error with message 'Incorrect username or password'", async () => {
+      const user = {
+        username: "username",
+        password: "pass",
+      };
+
+      const expectedBody = {
+        error: true,
+        code: 401,
+        message: "Incorrect username or password",
+      };
+      const { body } = await request(app)
+        .post("/accounts/login")
+        .send(user)
+        .expect(401);
+
+      expect(body).toEqual(expectedBody);
+    });
+  });
 });
