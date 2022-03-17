@@ -3,6 +3,16 @@ const bcrypt = require("bcrypt");
 const User = require("../../../../database/models/User");
 const login = require("./login");
 
+let originalEnv;
+beforeAll(() => {
+  originalEnv = { ...process.env };
+  process.env.TOKEN_SECRET = "secret";
+});
+
+afterAll(() => {
+  process.env = originalEnv;
+});
+
 describe("Given login", () => {
   describe("When it's passed valid data", () => {
     test("Then it should call res.json with a token", async () => {
