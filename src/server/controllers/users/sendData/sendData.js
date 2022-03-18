@@ -7,17 +7,12 @@ const sendData = async (req, res, next) => {
     code: 404,
     send: "User not found",
   };
-
-  try {
-    const userData = await User.findById(user.id).populate("info.avatar");
-    if (!userData) {
-      next(error);
-      return;
-    }
-    res.json(userData);
-  } catch (e) {
+  const userData = await User.findById(user.id);
+  if (!userData) {
     next(error);
+    return;
   }
+  res.json(userData);
 };
 
 module.exports = sendData;

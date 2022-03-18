@@ -1,6 +1,7 @@
 const { Schema, SchemaTypes } = require("mongoose");
 
 const defaultAvatar = "6227721d77140f9893aad259";
+const defaultAvatarBackup = "backupUrl";
 
 const userInfo = new Schema({
   name: {
@@ -15,11 +16,6 @@ const userInfo = new Schema({
     type: String,
     required: true,
     unique: true,
-  },
-  avatar: {
-    type: SchemaTypes.ObjectId,
-    ref: "Avatar",
-    default: defaultAvatar,
   },
 });
 
@@ -51,6 +47,22 @@ const defaultStats = {
   games: 0,
 };
 
+const avatarSchema = new Schema({
+  staticUrl: {
+    type: String,
+    default: defaultAvatar,
+  },
+  backup: {
+    type: String,
+    default: defaultAvatarBackup,
+  },
+});
+
+const defaultAvatarValues = {
+  staticUrl: defaultAvatar,
+  backup: defaultAvatarBackup,
+};
+
 const userProfile = new Schema({
   username: {
     type: String,
@@ -67,6 +79,10 @@ const userProfile = new Schema({
   stats: {
     type: userStats,
     default: defaultStats,
+  },
+  avatar: {
+    type: avatarSchema,
+    default: defaultAvatarValues,
   },
 });
 
