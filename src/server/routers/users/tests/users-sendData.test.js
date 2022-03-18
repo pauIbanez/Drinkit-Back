@@ -90,4 +90,21 @@ describe("Given /accounts/my-account endpoint", () => {
       expect(body).toEqual(expectedUserData);
     });
   });
+
+  describe("When it recieves a request with an invalid token", () => {
+    test("Then it should return an error with code 401 and message 'invalid token'", async () => {
+      const expectedError = {
+        code: 401,
+        error: true,
+        message: "Invalid token",
+      };
+
+      const { body } = await request(app)
+        .get("/accounts/my-account")
+        .set("Authorization", `Bearer invalidToken`)
+        .expect(401);
+
+      expect(body).toEqual(expectedError);
+    });
+  });
 });
