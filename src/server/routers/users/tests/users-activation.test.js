@@ -4,10 +4,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { default: mongoose } = require("mongoose");
 const request = require("supertest");
-const app = require("../..");
-const connectToDB = require("../../../database");
-const User = require("../../../database/models/User");
-const generateUser = require("../../../utils/users/creation/generateUser");
+const app = require("../../..");
+const connectToDB = require("../../../../database");
+const User = require("../../../../database/models/User");
+const generateUser = require("../../../../utils/users/creation/generateUser");
 
 let mongoServer;
 beforeAll(async () => {
