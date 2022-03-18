@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-const secret = process.env.TOKEN_SECRET;
-
 const auth = (req, res, next) => {
   const headerAuth = req.header("Authorization");
   if (!headerAuth) {
@@ -14,7 +12,7 @@ const auth = (req, res, next) => {
   }
   const token = headerAuth.replace("Bearer ", "");
   try {
-    const { id } = jwt.verify(token, secret);
+    const { id } = jwt.verify(token, process.env.TOKEN_SECRET);
     req.user = {
       id,
     };
