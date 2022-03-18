@@ -1,5 +1,6 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const { default: mongoose } = require("mongoose");
+const bcrypt = require("bcrypt");
 const request = require("supertest");
 const app = require("../..");
 
@@ -15,6 +16,7 @@ const email = "someemail@some.email";
 const username = "usernaim";
 const password = "passguord";
 
+let token;
 let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -29,11 +31,20 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  User.create({
-    ...generateUser(name, lastName, email, username, password),
+  const originalEnv = { ...process.env };
+  process.env.TOKEN_SECRET = "secret";
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  await User.create({
+    ...generateUser(name, lastName, email, username, hashedPassword),
     _id: "622a0b309b056758689f06e9",
   });
-  Game.create({
+  const { body } = await request(app)
+    .post("/accounts/login")
+    .send({ username, password });
+  token = body.token;
+  await Game.create({
     name: "Somegame",
     drunkness: "high",
     duration: 30,
@@ -45,10 +56,11 @@ beforeEach(async () => {
     },
     _id: "6229dc199b056758689f06e6",
   });
-  Room.create({
-    leader: "622a0b309b056758689f06e9",
+  await Room.create({
+    leader: "622a0b309b056758689f06e8",
     game: "6229dc199b056758689f06e6",
   });
+  process.env = originalEnv;
 });
 
 afterEach(async () => {
@@ -69,16 +81,25 @@ describe("Given /rooms/list endpoint", () => {
 describe("Given /rooms/create endpoint", () => {
   describe("When it recieves a request with a valid room", () => {
     test("Then it should return a status of 201", async () => {
+      const originalEnv = { ...process.env };
+      process.env.TOKEN_SECRET = "secret";
       const room = {
         game: "6229dc199b056758689f06e6",
       };
 
-      await request(app).post("/rooms/create").send(room).expect(201);
+      await request(app)
+        .post("/rooms/create")
+        .set("Authorization", `Bearer ${token}`)
+        .send(room)
+        .expect(201);
+      process.env = originalEnv;
     });
   });
 
   describe("When it recieves a request with a an invalid room", () => {
     test("Then it should return a status of 400 with error true and a message containing 'game'", async () => {
+      const originalEnv = { ...process.env };
+      process.env.TOKEN_SECRET = "secret";
       const room = {
         game: "asdasda",
       };
@@ -89,10 +110,12 @@ describe("Given /rooms/create endpoint", () => {
       };
       const { body } = await request(app)
         .post("/rooms/create")
+        .set("Authorization", `Bearer ${token}`)
         .send(room)
         .expect(400);
 
       expect(body).toEqual(expectedError);
+      process.env = originalEnv;
     });
   });
 });
