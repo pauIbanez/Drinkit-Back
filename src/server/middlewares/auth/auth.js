@@ -14,9 +14,8 @@ const auth = (req, res, next) => {
   }
   const token = headerAuth.replace("Bearer ", "");
   try {
-    const { username, id } = jwt.verify(token, secret);
+    const { id } = jwt.verify(token, secret);
     req.user = {
-      username,
       id,
     };
     next();
