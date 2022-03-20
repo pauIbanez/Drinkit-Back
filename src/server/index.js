@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
 app.use(express.static("public"));
+app.get("/avatars/:avatar", staticBackup);
 
 app.use("/rooms", roomsRouter);
 app.use("/accounts", usersRouter);
