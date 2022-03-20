@@ -30,11 +30,10 @@ describe("Given staticBackup", () => {
         },
       };
 
-      Buffer.from = jest.fn().mockReturnValue("avatarBuffer");
       User.findOne = jest.fn().mockResolvedValue(user);
-      fs.appendFile = jest.fn().mockImplementation((path, buffer, callback) => {
+      fs.appendFile = (path, buffer, callback) => {
         callback();
-      });
+      };
 
       await staticBackup(req, res);
 
@@ -66,11 +65,10 @@ describe("Given staticBackup", () => {
         },
       };
 
-      Buffer.from = jest.fn().mockReturnValue("avatarBuffer");
       User.findOne = jest.fn().mockResolvedValue(user);
-      fs.appendFile = jest.fn().mockImplementation((path, buffer, callback) => {
+      fs.appendFile = (path, buffer, callback) => {
         callback("something");
-      });
+      };
 
       await staticBackup(req, null, next);
 
