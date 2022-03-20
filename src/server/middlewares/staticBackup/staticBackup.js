@@ -29,7 +29,7 @@ const staticBackup = async (req, res, next) => {
       (error) => {
         if (error) {
           const newError = {
-            message: "Not found",
+            send: "Not found",
             code: 404,
           };
           next(newError);
