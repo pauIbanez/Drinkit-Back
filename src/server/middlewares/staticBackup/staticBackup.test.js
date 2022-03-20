@@ -77,4 +77,27 @@ describe("Given staticBackup", () => {
       expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
+
+  describe("When it's instanciated with a req with a non existing avatar", () => {
+    test("Then it should call next with code 404 and message Avatar not found", async () => {
+      const req = {
+        params: {
+          avatar: "avatar.png",
+        },
+      };
+
+      const expectedError = {
+        code: 404,
+        send: "Avatar not found",
+      };
+
+      const next = jest.fn();
+
+      User.findOne = jest.fn().mockResolvedValue(null);
+
+      await staticBackup(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
 });
