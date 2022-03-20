@@ -14,7 +14,6 @@ const staticBackup = async (req, res, next) => {
       code: 404,
     };
     next(error);
-    return;
   }
 
   const storage = getStorage();
