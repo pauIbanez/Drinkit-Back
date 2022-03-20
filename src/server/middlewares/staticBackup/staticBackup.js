@@ -10,7 +10,7 @@ const staticBackup = async (req, res, next) => {
 
   if (!user) {
     const error = {
-      message: "Not found",
+      send: "Avatar not found",
       code: 404,
     };
     next(error);
@@ -24,24 +24,28 @@ const staticBackup = async (req, res, next) => {
   const avatarBuffer = Buffer.from(avatarData);
 
   await new Promise((resolve) => {
-    fs.appendFile(`public/avatars/${user.avatar}`, avatarBuffer, (error) => {
-      if (error) {
-        const newError = {
-          message: "Not found",
-          code: 404,
-        };
-        next(newError);
+    fs.appendFile(
+      `public/avatars/${user.profile.avatar.staticUrl}`,
+      avatarBuffer,
+      (error) => {
+        if (error) {
+          const newError = {
+            message: "Not found",
+            code: 404,
+          };
+          next(newError);
+          resolve();
+          return;
+        }
+        const route = path.join(
+          __dirname,
+          "../../../../public/avatars/",
+          user.profile.avatar.staticUrl
+        );
+        res.sendFile(route);
         resolve();
-        return;
       }
-      const route = path.join(
-        __dirname,
-        "../../../public/avatars/",
-        user.avatar
-      );
-      res.sendFile(route);
-      resolve();
-    });
+    );
   });
 };
 
