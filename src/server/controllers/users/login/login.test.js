@@ -1,17 +1,8 @@
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../../../database/models/User");
 const login = require("./login");
-
-let originalEnv;
-beforeAll(() => {
-  originalEnv = { ...process.env };
-  process.env.TOKEN_SECRET = "secret";
-});
-
-afterAll(() => {
-  process.env = originalEnv;
-});
 
 describe("Given login", () => {
   describe("When it's passed valid data", () => {
@@ -35,11 +26,12 @@ describe("Given login", () => {
       };
 
       const expectedRes = {
-        token: expect.any(String),
+        token: "token",
       };
 
       User.findOne = jest.fn().mockResolvedValue(foundUser);
       bcrypt.compare = jest.fn().mockResolvedValue(true);
+      jwt.sign = jest.fn().mockReturnValue("token");
 
       await login(req, res);
 
