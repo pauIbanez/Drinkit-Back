@@ -15,7 +15,7 @@ const addUser = async (userId, connection) => {
   // eslint-disable-next-line no-param-reassign
   connection.id = userId;
 
-  connectedUsers.push({ id: userId, connection });
+  connectedUsers.push({ id: userId, connection, inLobby: false });
 };
 
 const removeUser = async (userId) => {

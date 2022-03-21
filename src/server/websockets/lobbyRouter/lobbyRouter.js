@@ -14,7 +14,7 @@ const lobbyRouter = (message, connection, player) => {
 
   switch (message.game) {
     case "piramide":
-      piramideLobbyRouter(message, connection, foundLobby, player);
+      piramideLobbyRouter(message, foundLobby, player);
       break;
 
     default:
