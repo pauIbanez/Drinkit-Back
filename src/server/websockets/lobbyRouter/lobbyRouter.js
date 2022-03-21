@@ -4,12 +4,15 @@ const {
 const piramideLobbyRouter = require("./piramideLobbyRouter/piramideLobbyRouter");
 
 const lobbyRouter = (message, connection, player) => {
-  const foundLobby = lobbies.find((lobby) => lobby.id === message.lobby);
-  if (!foundLobby) {
-    connection.send(
-      JSON.stringify({ error: true, message: "Lobby not found" })
-    );
-    return;
+  let foundLobby;
+  if (message.game) {
+    foundLobby = lobbies.find((lobby) => lobby.id === message.lobby);
+    if (!foundLobby) {
+      connection.send(
+        JSON.stringify({ error: true, message: "Lobby not found" })
+      );
+      return;
+    }
   }
 
   switch (message.game) {
