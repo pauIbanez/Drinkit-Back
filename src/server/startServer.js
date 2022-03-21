@@ -5,7 +5,7 @@ const startServer = (port, app) =>
     const server = app.listen(port, () => {
       const portString = port === 80 ? "" : `:${port}`;
       debug(`Server listening on http://localhost${portString}`);
-      resolve();
+      resolve(server);
     });
 
     server.on("error", (error) => {
