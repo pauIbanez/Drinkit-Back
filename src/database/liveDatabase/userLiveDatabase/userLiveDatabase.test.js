@@ -67,4 +67,14 @@ describe("Given removeUser", () => {
       expect(recievedConnectedUsers).toEqual(expectedUsers);
     });
   });
+
+  describe("When it's instanciated passing an invalid userId", () => {
+    test("Then it should return null", async () => {
+      User.findById = jest.fn().mockResolvedValue(null);
+
+      const result = await removeUser("invalid id");
+
+      expect(result).toBe(null);
+    });
+  });
 });
