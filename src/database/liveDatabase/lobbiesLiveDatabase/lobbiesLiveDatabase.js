@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 const PiramideLobby = require("./piramideLobby/PiramideLobby");
 
-const lobbies = [];
+let lobbies = [];
 
 const createLobby = (game, leader) => {
   const reference = {
@@ -35,4 +35,10 @@ const createLobby = (game, leader) => {
   }
 };
 
-module.exports = { createLobby };
+const removeLobby = (leaderId) => {
+  const newLobbies = lobbies.filter(({ leader: { id } }) => id !== leaderId);
+
+  lobbies = [...newLobbies];
+};
+
+module.exports = { createLobby, removeLobby };
