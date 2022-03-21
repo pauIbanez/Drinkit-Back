@@ -13,9 +13,11 @@ const router = async (message, connection) => {
     );
   }
 
+  const player = { id: foundUser.id, profile: foundUser.profile, connection };
+
   switch (message.reason) {
     case "lobby":
-      lobbyRouter(message, connection, foundUser);
+      lobbyRouter(message, connection, player);
       break;
 
     case "game":

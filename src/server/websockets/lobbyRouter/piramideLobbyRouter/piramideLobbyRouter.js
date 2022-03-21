@@ -5,7 +5,7 @@ const piramideLobbyRouter = async (
   player
 ) => {
   // eslint-disable-next-line no-param-reassign
-  player.connection = connection;
+  // player.connection = connection;
 
   switch (message.type) {
     case "join":
