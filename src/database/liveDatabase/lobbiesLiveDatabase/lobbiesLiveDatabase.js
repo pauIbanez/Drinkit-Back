@@ -10,6 +10,8 @@ const createLobby = (game, leader, roomId) => {
     sharedId: getId(),
   };
 
+  const leaderPlayer = { id: leader.id, profile: leader.profile };
+
   switch (game.toLowerCase()) {
     case "piramide":
       const defaultConfig = {
@@ -19,7 +21,11 @@ const createLobby = (game, leader, roomId) => {
         jokers: false,
       };
 
-      const piramideLobby = new PiramideLobby(defaultConfig, leader, reference);
+      const piramideLobby = new PiramideLobby(
+        defaultConfig,
+        leaderPlayer,
+        reference
+      );
 
       const lobbyToStore = {
         type: game,

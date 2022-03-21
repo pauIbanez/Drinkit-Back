@@ -3,14 +3,14 @@ const {
   removeUser,
 } = require("../../../database/liveDatabase/userLiveDatabase/userLiveDatabase");
 
-const messageRouter = async (message, connection) => {
+const connectionRouter = async (message, connection) => {
   switch (message.type) {
     case "conn-open":
-      await addUser(message.id, connection);
+      await addUser(message.userId, connection);
       break;
 
     case "close":
-      await removeUser(message.id);
+      await removeUser(message.userId);
       break;
 
     default:
@@ -18,4 +18,4 @@ const messageRouter = async (message, connection) => {
   }
 };
 
-module.exports = messageRouter;
+module.exports = connectionRouter;

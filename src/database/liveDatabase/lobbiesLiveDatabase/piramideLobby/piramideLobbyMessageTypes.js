@@ -1,4 +1,4 @@
-const requestTypes = {
+const piramideRequestTypes = {
   toggleTwoDecks: "toggle-two-decks",
   toggleJokers: "toggle-jokers",
   toggleLeftovers: "toggle-leftovers",
@@ -7,10 +7,10 @@ const requestTypes = {
   startGame: "start-game",
 };
 
-const responseTypes = {
+const piramideResponseTypes = {
   sendState: "send-state",
   unknownType: "unknown-type",
   startGame: "start-game",
 };
 
-module.exports = { requestTypes, responseTypes };
+module.exports = { piramideRequestTypes, piramideResponseTypes };

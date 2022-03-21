@@ -30,6 +30,7 @@ describe("Given add user", () => {
         {
           id: player.id,
           connection,
+          inLobby: false,
         },
       ];
 
@@ -38,33 +39,61 @@ describe("Given add user", () => {
       await addUser(player.id, connection);
 
       expect(player.online).toBe(true);
-      expect(connection.id).toBe(player.id);
+      expect(connection.userId).toBe(player.id);
       expect(connectedUsers).toEqual(expectedUsers);
     });
   });
 });
 
 describe("Given removeUser", () => {
-  describe("When it's intanciated passing a userId", () => {
-    test("Then it should ser the user online to false and remove it from the list", async () => {
+  const mockRemovePlayer = jest.fn();
+  beforeEach(() => {
+    connectedUsers.length = 0;
+    connectedUsers.push({
+      id: "playerId",
+      inLobby: true,
+      lobbyInstance: {
+        lobby: {
+          removePlayer: mockRemovePlayer,
+        },
+      },
+    });
+
+    connectedUsers.push({
+      id: "otherId",
+      inLobby: false,
+    });
+  });
+
+  describe("When it's intanciated passing a userId of a user in a Lobby", () => {
+    test("Then it should set the user online to false and remove it from the list", async () => {
       const player = {
         online: true,
         id: "playerId",
         save: jest.fn(),
       };
 
-      connectedUsers.length = 0;
-      connectedUsers.push({
-        id: player.id,
-      });
-
-      const expectedUsers = [];
-
       User.findById = jest.fn().mockResolvedValue(player);
 
       const recievedConnectedUsers = await removeUser(player.id);
       expect(player.online).toBe(false);
-      expect(recievedConnectedUsers).toEqual(expectedUsers);
+      expect(recievedConnectedUsers).toHaveLength(1);
+      expect(mockRemovePlayer).toHaveBeenCalledWith(player.id);
+    });
+  });
+
+  describe("When it's intanciated passing a userId of a user", () => {
+    test("Then it should set the user online to false and remove it from the list", async () => {
+      const player = {
+        online: true,
+        id: "otherId",
+        save: jest.fn(),
+      };
+
+      User.findById = jest.fn().mockResolvedValue(player);
+
+      await removeUser(player.id);
+      expect(player.online).toBe(false);
     });
   });
 
