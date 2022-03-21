@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-const { getId, liberateId } = require("./getLobbyShareId");
+const { getId, liberateId } = require("./sharedIds");
 const PiramideLobby = require("./piramideLobby/PiramideLobby");
 
 let lobbies = [];
