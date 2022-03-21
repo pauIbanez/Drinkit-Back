@@ -3,6 +3,9 @@ leader: id,
 game: id,
 */
 
+const {
+  createLobby,
+} = require("../../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
 const Room = require("../../../../database/models/Room");
 
 const createRoom = async (req, res, next) => {
@@ -18,6 +21,8 @@ const createRoom = async (req, res, next) => {
   try {
     const { id } = await Room.create(room);
     const createdRoom = await Room.findById(id).populate("leader game");
+
+    createLobby(createdRoom.game.name, createdRoom.leader);
     res.status(201).json(createdRoom);
   } catch (e) {
     next(e);

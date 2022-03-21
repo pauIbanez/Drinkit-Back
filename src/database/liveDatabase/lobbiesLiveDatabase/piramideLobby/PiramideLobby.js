@@ -29,7 +29,7 @@ class PiramideLobby {
   leftovers;
   modifiers = [];
 
-  constructor(lobbyConfig, leader) {
+  constructor(lobbyConfig, leader, reference) {
     this.id = reference.id;
     this.sharedId = reference.sharedId;
     this.leader = leader;

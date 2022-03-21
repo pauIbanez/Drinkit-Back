@@ -3,22 +3,27 @@ const PiramideLobby = require("./piramideLobby/PiramideLobby");
 
 const lobbies = [];
 
-const createLobby = (lobby) => {
+const createLobby = (game, leader) => {
   const reference = {
     id: "roomid",
     sharedId: "roomshareCode",
   };
 
-  switch (lobby.type) {
+  switch (game.toLowerCase()) {
     case "piramide":
-      const piramideLobby = new PiramideLobby(
-        lobby.config,
-        lobby.leader,
-        reference
-      );
+      const defaultConfig = {
+        leftovers: false,
+        modifiers: [],
+        twoDecks: false,
+        jokers: false,
+      };
+
+      const piramideLobby = new PiramideLobby(defaultConfig, leader, reference);
 
       const lobbyToStore = {
-        type: lobby.type,
+        type: game,
+        id: reference.id,
+        leader,
         lobby: piramideLobby,
       };
 
