@@ -2,6 +2,20 @@ const User = require("../../models/User");
 const { connectedUsers, addUser } = require("./userLiveDatabase");
 
 describe("Given add user", () => {
+  describe("When it's instanciated passing an invalid userId", () => {
+    test("Then it should call connection.close", async () => {
+      const connection = {
+        close: jest.fn(),
+      };
+
+      User.findById = jest.fn().mockResolvedValue(null);
+
+      await addUser("invalid id", connection);
+
+      expect(connection.close).toHaveBeenCalled();
+    });
+  });
+
   describe("When it's instanciated passing a valid userId and a conn", () => {
     test("Then it should set the player as online and add it to connectedPlayers", async () => {
       const player = {

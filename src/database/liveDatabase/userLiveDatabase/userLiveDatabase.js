@@ -4,13 +4,13 @@ let connectedUsers = [];
 
 const addUser = async (userId, connection) => {
   const foundUser = await User.findById(userId);
-  foundUser.online = true;
-  foundUser.save();
 
   if (!foundUser) {
     connection.close();
     return;
   }
+  foundUser.online = true;
+  foundUser.save();
 
   // eslint-disable-next-line no-param-reassign
   connection.id = userId;
