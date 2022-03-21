@@ -22,7 +22,7 @@ const removeUser = async (userId) => {
   const foundUser = await User.findById(userId);
 
   if (!foundUser) {
-    return;
+    return null;
   }
 
   foundUser.online = false;
@@ -31,6 +31,8 @@ const removeUser = async (userId) => {
   const newConnections = connectedUsers.filter((conn) => conn.id !== userId);
 
   connectedUsers = [...newConnections];
+
+  return connectedUsers;
 };
 
 module.exports = { addUser, removeUser, connectedUsers };

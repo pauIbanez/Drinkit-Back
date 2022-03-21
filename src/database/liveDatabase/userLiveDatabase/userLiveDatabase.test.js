@@ -1,5 +1,5 @@
 const User = require("../../models/User");
-const { connectedUsers, addUser } = require("./userLiveDatabase");
+const { connectedUsers, addUser, removeUser } = require("./userLiveDatabase");
 
 describe("Given add user", () => {
   describe("When it's instanciated passing an invalid userId", () => {
@@ -40,6 +40,31 @@ describe("Given add user", () => {
       expect(player.online).toBe(true);
       expect(connection.id).toBe(player.id);
       expect(connectedUsers).toEqual(expectedUsers);
+    });
+  });
+});
+
+describe("Given removeUser", () => {
+  describe("When it's intanciated passing a userId", () => {
+    test("Then it should ser the user online to false and remove it from the list", async () => {
+      const player = {
+        online: true,
+        id: "playerId",
+        save: jest.fn(),
+      };
+
+      connectedUsers.length = 0;
+      connectedUsers.push({
+        id: player.id,
+      });
+
+      const expectedUsers = [];
+
+      User.findById = jest.fn().mockResolvedValue(player);
+
+      const recievedConnectedUsers = await removeUser(player.id);
+      expect(player.online).toBe(false);
+      expect(recievedConnectedUsers).toEqual(expectedUsers);
     });
   });
 });
