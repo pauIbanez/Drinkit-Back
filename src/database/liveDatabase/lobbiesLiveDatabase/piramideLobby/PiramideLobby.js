@@ -13,13 +13,6 @@ class PiramideLobby {
   leader;
   connectedPlayers = [];
 
-  // Player:
-  // {
-  //   profile: {},
-  //   id: "",
-  //   connection
-  // }
-
   minPlayers;
   maxPlayers;
   availableSlots;

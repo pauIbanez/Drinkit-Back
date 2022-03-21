@@ -39,6 +39,8 @@ const removeLobby = (leaderId) => {
   const newLobbies = lobbies.filter(({ leader: { id } }) => id !== leaderId);
 
   lobbies = [...newLobbies];
+
+  return lobbies;
 };
 
-module.exports = { createLobby, removeLobby };
+module.exports = { createLobby, removeLobby, lobbies };
