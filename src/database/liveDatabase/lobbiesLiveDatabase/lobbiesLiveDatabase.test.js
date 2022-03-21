@@ -22,7 +22,7 @@ describe("Given createLobby", () => {
         }),
       ];
 
-      createLobby(game, leader);
+      createLobby(game, leader, "roomid");
 
       expect(lobbies).toEqual(expectedLobbies);
 

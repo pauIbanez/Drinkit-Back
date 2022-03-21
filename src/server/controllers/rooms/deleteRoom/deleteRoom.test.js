@@ -1,9 +1,18 @@
+const {
+  lobbies,
+} = require("../../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
 const Room = require("../../../../database/models/Room");
 const deleteRoom = require("./deleteRoom");
 
 describe("Given deleteRoom", () => {
   describe("when it recieves a req with the user and everything goes ok", () => {
     test("Then it should call res.json with an empty object", async () => {
+      lobbies.push({
+        leader: {
+          id: "userId",
+        },
+      });
+
       const req = {
         user: {
           id: "userId",
