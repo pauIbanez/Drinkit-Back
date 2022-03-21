@@ -8,6 +8,7 @@ const sendData = async (req, res, next) => {
     send: "User not found",
   };
   const userData = await User.findById(user.id);
+
   if (!userData) {
     next(error);
     return;

@@ -1,4 +1,3 @@
-const mockingoose = require("mockingoose/lib");
 const Room = require("../../../../database/models/Room");
 const createRoom = require("./createRoom");
 
@@ -21,8 +20,22 @@ describe("Given createRoom", () => {
         json: jest.fn(),
       };
 
+      const createdRoom = {
+        leader: {
+          id: "id",
+          profile: {
+            username: "username",
+          },
+        },
+        game: {
+          id: "gameId",
+          name: "piramide",
+        },
+      };
+
       Room.create = jest.fn().mockResolvedValue({ id: "" });
-      mockingoose(Room).toReturn({}, "findById");
+      Room.findById = jest.fn().mockReturnThis();
+      Room.populate = jest.fn().mockResolvedValue(createdRoom);
 
       await createRoom(req, res);
 

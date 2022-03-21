@@ -1,3 +1,6 @@
+const {
+  removeLobby,
+} = require("../../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
 const Room = require("../../../../database/models/Room");
 
 const deleteRoom = async (req, res, next) => {
@@ -16,6 +19,9 @@ const deleteRoom = async (req, res, next) => {
 
   try {
     await Room.findByIdAndDelete(playerRoom.id);
+
+    removeLobby(user.id);
+
     res.json({});
   } catch (error) {
     next(error);
