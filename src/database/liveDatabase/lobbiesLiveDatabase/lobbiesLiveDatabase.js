@@ -3,9 +3,9 @@ const PiramideLobby = require("./piramideLobby/PiramideLobby");
 
 let lobbies = [];
 
-const createLobby = (game, leader) => {
+const createLobby = (game, leader, roomId) => {
   const reference = {
-    id: "roomid",
+    id: roomId,
     sharedId: "roomshareCode",
   };
 
