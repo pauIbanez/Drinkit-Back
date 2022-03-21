@@ -36,3 +36,5 @@ const liberateId = (id) => {
     }
   }
 })();
+
+module.exports = { getId, liberateId };

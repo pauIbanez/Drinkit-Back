@@ -1,4 +1,5 @@
 /* eslint-disable no-case-declarations */
+const { getId, liberateId } = require("./getLobbyShareId");
 const PiramideLobby = require("./piramideLobby/PiramideLobby");
 
 let lobbies = [];
@@ -6,7 +7,7 @@ let lobbies = [];
 const createLobby = (game, leader, roomId) => {
   const reference = {
     id: roomId,
-    sharedId: "roomshareCode",
+    sharedId: getId(),
   };
 
   switch (game.toLowerCase()) {
@@ -36,10 +37,10 @@ const createLobby = (game, leader, roomId) => {
 };
 
 const removeLobby = (leaderId) => {
+  const foundLobby = lobbies.find(({ leader: { id } }) => id === leaderId);
   const newLobbies = lobbies.filter(({ leader: { id } }) => id !== leaderId);
-
+  liberateId(foundLobby.reference.sharedId);
   lobbies = [...newLobbies];
-
   return lobbies;
 };
 
