@@ -39,13 +39,16 @@
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.2",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "websockets": "^0.2.0",
+    "ws": "^8.5.0"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
       "!src/server/startServer.js",
+      "!src/server/startWebsocket.js",
       "!src/database/index.js",
       "!src/utils/email/index.js"
     ]
