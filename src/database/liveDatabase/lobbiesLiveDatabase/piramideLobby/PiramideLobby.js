@@ -6,7 +6,6 @@ const {
   piramideRequestTypes,
 } = require("./piramideLobbyMessageTypes");
 
-// ALL WS METHODES IN THIS CLASS ASUME THE REQUEST IS VALIDATED AND PARSED BEFORE BEING CALLED
 class PiramideLobby {
   ready = false;
 
