@@ -39,7 +39,7 @@ const createLobby = (game, leader, roomId) => {
 const removeLobby = (leaderId) => {
   const foundLobby = lobbies.find(({ leader: { id } }) => id === leaderId);
   const newLobbies = lobbies.filter(({ leader: { id } }) => id !== leaderId);
-  liberateId(foundLobby.reference.sharedId);
+  liberateId(foundLobby.sharedId);
   lobbies = [...newLobbies];
   return lobbies;
 };
