@@ -1,4 +1,5 @@
 const WebSocket = require("ws");
+const messageRouter = require("./websockets/router/router");
 
 const startWebscokets = (app) => {
   const websocketServer = new WebSocket.Server({
@@ -15,8 +16,11 @@ const startWebscokets = (app) => {
   websocketServer.on("connection", (websocketConnection) => {
     websocketConnection.on("message", (message) => {
       const parsedMessage = JSON.parse(message);
+      messageRouter(parsedMessage, websocketConnection);
+    });
 
-      websocketConnection.send(JSON.stringify(parsedMessage));
+    websocketConnection.on("close", () => {
+      messageRouter({ type: "close", id: websocketConnection.id });
     });
   });
 
