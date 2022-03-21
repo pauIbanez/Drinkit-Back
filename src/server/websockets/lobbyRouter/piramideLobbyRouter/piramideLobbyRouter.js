@@ -3,7 +3,7 @@ const {
   connectedUsers,
 } = require("../../../../database/liveDatabase/userLiveDatabase/userLiveDatabase");
 
-const piramideLobbyRouter = async (message, lobbyInstance, player) => {
+const piramideLobbyRouter = (message, lobbyInstance, player) => {
   switch (message.type) {
     case "join":
       lobbyInstance.lobby.appendPlayer(player);
