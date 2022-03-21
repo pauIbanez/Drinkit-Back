@@ -1,7 +1,10 @@
 /* eslint-disable lines-between-class-members */
 const debug = require("debug")("drinkit:piramide lobby state");
 const chalk = require("chalk");
-const { responseTypes, requestTypes } = require("./piramideLobbyMessageTypes");
+const {
+  piramideResponseTypes,
+  piramideRequestTypes,
+} = require("./piramideLobbyMessageTypes");
 
 // ALL WS METHODES IN THIS CLASS ASUME THE REQUEST IS VALIDATED AND PARSED BEFORE BEING CALLED
 class PiramideLobby {
@@ -26,7 +29,6 @@ class PiramideLobby {
     this.id = reference.id;
     this.sharedId = reference.sharedId;
     this.leader = leader;
-    this.connectedPlayers.push(leader);
 
     this.setupLobby(lobbyConfig);
   }
@@ -57,20 +59,26 @@ class PiramideLobby {
     this.connectedPlayers.push(player);
     debug(
       chalk.yellowBright(
-        `Player ${this.leader.profile.username} joined lobby ${this.id}`
+        `Player ${player.profile.username} joined lobby ${this.id}`
       )
     );
-    this.sendMessage({ type: responseTypes.sendState });
+    this.sendMessage({ type: piramideResponseTypes.sendState });
   }
 
   removePlayer(id) {
+    const foundPlayer = this.connectedPlayers.find(
+      (player) => player.id === id
+    );
+
     this.connectedPlayers = this.connectedPlayers.filter(
       (player) => player.id !== id
     );
     debug(
-      chalk.yellowBright(`Player ${this.leader.username} left lobby ${this.id}`)
+      chalk.yellowBright(
+        `Player ${foundPlayer.profile.username} left lobby ${this.id}`
+      )
     );
-    this.sendMessage({ type: responseTypes.sendState });
+    this.sendMessage({ type: piramideResponseTypes.sendState });
   }
 
   toggleDecks() {
@@ -105,34 +113,34 @@ class PiramideLobby {
 
   recieveMessage(request) {
     switch (request.type) {
-      case requestTypes.toggleTwoDecks:
+      case piramideRequestTypes.toggleTwoDecks:
         this.toggleTwoDecks();
         break;
 
-      case requestTypes.toggleJokers:
+      case piramideRequestTypes.toggleJokers:
         this.toggleJokers();
         break;
 
-      case requestTypes.toggleLeftovers:
+      case piramideRequestTypes.toggleLeftovers:
         this.toggleLeftovers();
         break;
 
-      case requestTypes.addModifier:
+      case piramideRequestTypes.addModifier:
         this.addModifier(request.modifierId);
         break;
 
-      case requestTypes.removeModifier:
+      case piramideRequestTypes.removeModifier:
         this.removeModifier(request.modifierId);
         break;
       default:
         this.sendMessage({
           requester: request.clientId,
-          type: responseTypes.unknownType,
+          type: piramideResponseTypes.unknownType,
         });
         return;
     }
 
-    this.sendMessage({ type: responseTypes.sendState });
+    this.sendMessage({ type: piramideResponseTypes.sendState });
   }
 
   getState() {
@@ -152,13 +160,13 @@ class PiramideLobby {
 
   sendMessage(message) {
     switch (message.type) {
-      case responseTypes.sendState:
+      case piramideResponseTypes.sendState:
         this.connectedPlayers.forEach(({ connection }) => {
           connection.send(JSON.stringify(this.getState()));
         });
         break;
 
-      case responseTypes.unknownType:
+      case piramideResponseTypes.unknownType:
         this.connectedPlayers[message.requester].send(
           JSON.stringify({ error: "Unkown type" })
         );
