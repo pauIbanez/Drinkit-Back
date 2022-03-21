@@ -145,7 +145,10 @@ class PiramideLobby {
   getState() {
     return {
       leader: this.leader,
-      connectedPlayers: this.connectedPlayers,
+      connectedPlayers: this.connectedPlayers.map((player) => ({
+        ...player,
+        connection: undefined,
+      })),
 
       minPlayers: this.minPlayers,
       maxPlayers: this.maxPlayers,
