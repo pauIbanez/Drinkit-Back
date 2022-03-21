@@ -21,7 +21,7 @@ const startWebscokets = (app) => {
     });
 
     websocketConnection.on("close", () => {
-      router({ type: "close", id: websocketConnection.id });
+      router({ type: "close", userId: websocketConnection.userId });
     });
   });
 

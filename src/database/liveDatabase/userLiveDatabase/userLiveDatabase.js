@@ -13,7 +13,7 @@ const addUser = async (userId, connection) => {
   foundUser.save();
 
   // eslint-disable-next-line no-param-reassign
-  connection.id = userId;
+  connection.userId = userId;
 
   connectedUsers.push({ id: userId, connection, inLobby: false });
 };
@@ -28,7 +28,13 @@ const removeUser = async (userId) => {
   foundUser.online = false;
   foundUser.save();
 
-  const newConnections = connectedUsers.filter((conn) => conn.id !== userId);
+  const foundConnectedUser = connectedUsers.find((user) => user.id === userId);
+
+  if (foundConnectedUser.inLobby) {
+    foundConnectedUser.lobbyInstance.lobby.removePlayer(userId);
+  }
+
+  const newConnections = connectedUsers.filter((user) => user.id !== userId);
 
   connectedUsers = [...newConnections];
 
