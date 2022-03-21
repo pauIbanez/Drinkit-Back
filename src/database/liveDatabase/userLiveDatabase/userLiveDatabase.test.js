@@ -30,6 +30,7 @@ describe("Given add user", () => {
         {
           id: player.id,
           connection,
+          inLobby: false,
         },
       ];
 
@@ -38,7 +39,7 @@ describe("Given add user", () => {
       await addUser(player.id, connection);
 
       expect(player.online).toBe(true);
-      expect(connection.id).toBe(player.id);
+      expect(connection.userId).toBe(player.id);
       expect(connectedUsers).toEqual(expectedUsers);
     });
   });
