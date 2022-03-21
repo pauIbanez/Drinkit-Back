@@ -28,6 +28,10 @@ describe("Given router", () => {
         connection: {},
       });
     });
+
+    afterEach(() => {
+      connectedUsers.splice(0, connectedUsers.length - 1);
+    });
     test("Then it should call lobbyRouter", async () => {
       const message = {
         reason: "lobby",
@@ -51,6 +55,29 @@ describe("Given router", () => {
         message,
         connection,
         expectedPlayer
+      );
+    });
+  });
+
+  describe("When it's intanciated passing a message with the reason as 'lobby' with invalid user", () => {
+    test("Then it should call connection.send with an error", async () => {
+      const message = {
+        reason: "lobby",
+      };
+      const connection = {
+        send: jest.fn(),
+      };
+
+      const expectedError = {
+        error: true,
+        message: "Invalid player",
+      };
+      User.findById = jest.fn().mockResolvedValue(null);
+
+      await router(message, connection);
+
+      expect(connection.send).toHaveBeenCalledWith(
+        JSON.stringify(expectedError)
       );
     });
   });

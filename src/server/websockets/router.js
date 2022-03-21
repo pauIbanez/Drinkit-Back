@@ -14,6 +14,7 @@ const router = async (message, connection) => {
           message: "Invalid player",
         })
       );
+      return;
     }
     player = { id: foundUser.id, profile: foundUser.profile, connection };
   }
@@ -21,12 +22,6 @@ const router = async (message, connection) => {
   switch (message.reason) {
     case "lobby":
       lobbyRouter(message, connection, player);
-      break;
-
-    case "game":
-      break;
-
-    case "social":
       break;
 
     default:
