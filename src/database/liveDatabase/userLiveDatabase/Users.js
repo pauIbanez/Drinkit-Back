@@ -6,10 +6,16 @@ class Users {
   };
 
   removeUser = (userId) => {
+    const foundUser = this.users.find((user) => user.id === userId);
+
+    if (foundUser.inLobby) {
+      foundUser.lobbyInstance.lobby.removePlayer(userId);
+    }
+
     const newUsers = this.users.filter((user) => user.id !== userId);
 
     this.users = newUsers;
   };
 }
 
-export default Users;
+module.exports = Users;
