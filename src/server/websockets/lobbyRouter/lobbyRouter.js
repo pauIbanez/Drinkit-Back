@@ -1,12 +1,12 @@
 const {
   lobbies,
-} = require("../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
+} = require("../../../database/liveDatabase/lobbiesLiveDatabase/Lobbies");
 const piramideLobbyRouter = require("./piramideLobbyRouter/piramideLobbyRouter");
 
 const lobbyRouter = (message, connection, player) => {
   let foundLobby;
   if (message.game) {
-    foundLobby = lobbies.find((lobby) => lobby.id === message.lobby);
+    foundLobby = lobbies.findLobby(message.lobby);
     if (!foundLobby) {
       connection.send(
         JSON.stringify({ error: true, message: "Lobby not found" })

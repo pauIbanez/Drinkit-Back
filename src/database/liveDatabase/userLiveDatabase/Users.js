@@ -9,13 +9,20 @@ class Users {
     const foundUser = this.users.find((user) => user.id === userId);
 
     if (foundUser.inLobby) {
-      foundUser.lobbyInstance.lobby.removePlayer(userId);
+      foundUser.lobby.removePlayer(userId);
     }
 
     const newUsers = this.users.filter((user) => user.id !== userId);
 
     this.users = newUsers;
   };
+
+  findUser = (userId) => {
+    const foundUser = this.users.find((user) => user.id === userId);
+    return foundUser;
+  };
 }
 
-module.exports = Users;
+const users = new Users();
+
+module.exports = { users, Users };

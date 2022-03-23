@@ -1,17 +1,18 @@
 /* eslint-disable no-case-declarations */
-const {
-  connectedUsers,
-} = require("../../../../database/liveDatabase/userLiveDatabase/userLiveDatabase");
 
-const piramideLobbyRouter = (message, lobbyInstance, player) => {
+const {
+  users,
+} = require("../../../../database/liveDatabase/userLiveDatabase/Users");
+
+const piramideLobbyRouter = (message, lobby, player) => {
   switch (message.type) {
     case "join":
-      lobbyInstance.lobby.appendPlayer(player);
+      lobby.appendPlayer(player);
 
-      const foundUser = connectedUsers.find((user) => user.id === player.id);
+      const foundUser = users.findUser(player.id);
 
       foundUser.inLobby = true;
-      foundUser.lobbyInstance = lobbyInstance;
+      foundUser.lobby = lobby;
       break;
     default:
       break;

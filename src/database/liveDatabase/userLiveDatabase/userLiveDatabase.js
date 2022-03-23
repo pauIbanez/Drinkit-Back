@@ -2,9 +2,7 @@ const debug = require("debug")("drinkit:liveDatabase");
 
 const chalk = require("chalk");
 const User = require("../../models/User");
-const Users = require("./Users");
-
-const users = new Users();
+const { users } = require("./Users");
 
 const addUser = async (userId, connection) => {
   const foundUser = await User.findById(userId);

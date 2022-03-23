@@ -1,4 +1,11 @@
-const { createLobby, lobbies, removeLobby } = require("./lobbiesLiveDatabase");
+const { Lobbies } = require("./Lobbies");
+const { createLobby, removeLobby } = require("./lobbiesLiveDatabase");
+
+const mockLobbies = new Lobbies();
+
+jest.mock("./Lobbies", () => ({
+  lobbies: mockLobbies,
+}));
 
 describe("Given createLobby", () => {
   describe("When it's intanciated passing a piramide game and a leader", () => {
@@ -9,18 +16,7 @@ describe("Given createLobby", () => {
           username: "leader test",
         },
       };
-      const game = "Piramide";
-
-      const expectedLobbies = [
-        expect.objectContaining({
-          type: game,
-          id: "roomid",
-          leader,
-          lobby: expect.objectContaining({
-            leader,
-          }),
-        }),
-      ];
+      const game = "piramide";
 
       createLobby(game, leader, "roomid");
 
