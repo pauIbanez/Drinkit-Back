@@ -5,11 +5,13 @@ class Lobbies {
     this.lobbies.push(lobby);
   };
 
-  removeUser = (lobbyId) => {
-    const newLobbies = this.lobbies.filter((lobby) => lobby.id !== lobbyId);
+  removeLobby = (lobbyId) => {
+    const newLobbies = this.lobbies.filter(
+      (lobby) => lobby.reference.id !== lobbyId
+    );
 
     this.lobbies = newLobbies;
   };
 }
 
-export default Lobbies;
+module.exports = Lobbies;
