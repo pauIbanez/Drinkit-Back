@@ -1,5 +1,6 @@
 const User = require("../../models/User");
-const { connectedUsers, addUser, removeUser } = require("./userLiveDatabase");
+const { addUser, removeUser } = require("./userLiveDatabase");
+const { users } = require("./Users");
 
 describe("Given add user", () => {
   describe("When it's instanciated passing an invalid userId", () => {
@@ -17,7 +18,7 @@ describe("Given add user", () => {
   });
 
   describe("When it's instanciated passing a valid userId and a conn", () => {
-    test("Then it should set the player as online and add it to connectedPlayers", async () => {
+    test("Then it should set the player as online and call the users.appendUser", async () => {
       const player = {
         online: false,
         id: "playerId",
@@ -26,13 +27,7 @@ describe("Given add user", () => {
 
       const connection = {};
 
-      const expectedUsers = [
-        {
-          id: player.id,
-          connection,
-          inLobby: false,
-        },
-      ];
+      const spyAppend = jest.spyOn(users, "appendUser");
 
       User.findById = jest.fn().mockResolvedValue(player);
 
@@ -40,31 +35,15 @@ describe("Given add user", () => {
 
       expect(player.online).toBe(true);
       expect(connection.userId).toBe(player.id);
-      expect(connectedUsers).toEqual(expectedUsers);
+      expect(spyAppend).toHaveBeenCalled();
     });
   });
 });
 
 describe("Given removeUser", () => {
-  const mockRemovePlayer = jest.fn();
-  beforeEach(() => {
-    connectedUsers.length = 0;
-    connectedUsers.push({
-      id: "playerId",
-      inLobby: true,
-      lobbyInstance: {
-        lobby: {
-          removePlayer: mockRemovePlayer,
-        },
-      },
-    });
-
-    connectedUsers.push({
-      id: "otherId",
-      inLobby: false,
-    });
+  afterEach(() => {
+    jest.resetAllMocks();
   });
-
   describe("When it's intanciated passing a userId of a user in a Lobby", () => {
     test("Then it should set the user online to false and remove it from the list", async () => {
       const player = {
@@ -73,37 +52,26 @@ describe("Given removeUser", () => {
         save: jest.fn(),
       };
 
-      User.findById = jest.fn().mockResolvedValue(player);
-
-      const recievedConnectedUsers = await removeUser(player.id);
-      expect(player.online).toBe(false);
-      expect(recievedConnectedUsers).toHaveLength(1);
-      expect(mockRemovePlayer).toHaveBeenCalledWith(player.id);
-    });
-  });
-
-  describe("When it's intanciated passing a userId of a user", () => {
-    test("Then it should set the user online to false and remove it from the list", async () => {
-      const player = {
-        online: true,
-        id: "otherId",
-        save: jest.fn(),
-      };
+      users.appendUser(player);
 
       User.findById = jest.fn().mockResolvedValue(player);
+      const spyRemove = jest.spyOn(users, "removeUser");
 
       await removeUser(player.id);
       expect(player.online).toBe(false);
+      expect(spyRemove).toHaveBeenCalled();
     });
   });
 
   describe("When it's instanciated passing an invalid userId", () => {
-    test("Then it should return null", async () => {
+    test("Then it should do nothing", async () => {
       User.findById = jest.fn().mockResolvedValue(null);
 
-      const result = await removeUser("invalid id");
+      await removeUser("invalid id");
 
-      expect(result).toBe(null);
+      const spyRemove = jest.spyOn(users, "removeUser");
+
+      expect(spyRemove).not.toHaveBeenCalled();
     });
   });
 });

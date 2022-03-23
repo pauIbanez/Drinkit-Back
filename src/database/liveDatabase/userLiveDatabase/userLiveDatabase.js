@@ -39,4 +39,4 @@ const removeUser = async (userId) => {
   users.removeUser(userId);
 };
 
-module.exports = { addUser, removeUser, connectedUsers: users };
+module.exports = { addUser, removeUser };
