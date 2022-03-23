@@ -1,5 +1,5 @@
+const { lobbies } = require("./Lobbies");
 const { createLobby, removeLobby } = require("./lobbiesLiveDatabase");
-const AllLobbies = require("./Lobbies");
 
 describe("Given createLobby", () => {
   describe("When it's intanciated passing a piramide game and a leader", () => {
@@ -12,21 +12,11 @@ describe("Given createLobby", () => {
       };
       const game = "piramide";
 
-      const mockLobbies = new AllLobbies.Lobbies();
-      AllLobbies.lobbies = mockLobbies;
+      const spyAppend = jest.spyOn(lobbies, "appendLobby");
 
       createLobby(game, leader, "roomid");
 
-      const expectedLobbies = [
-        expect.objectContaining({
-          id: "roomId",
-          leader: {
-            id: "id",
-          },
-        }),
-      ];
-
-      expect(mockLobbies.lobbies).toEqual(expectedLobbies);
+      expect(spyAppend).toHaveBeenCalled();
     });
   });
 });
@@ -34,15 +24,23 @@ describe("Given createLobby", () => {
 describe("Given removeLobby", () => {
   describe("When it's intanciated passing a leader id", () => {
     test("Then it should eliminiate the lobby with that leader id", () => {
-      lobbies.push({
+      const leaderId = "leaderId";
+
+      const lobby = {
+        game: "piramide",
+        id: "lobbyId",
         leader: {
-          id: "leaderId",
+          id: leaderId,
         },
-      });
+      };
 
-      const returnedLobbies = removeLobby("leaderId");
+      const spyRemove = jest.spyOn(lobbies, "removeLobby");
 
-      expect(returnedLobbies).toEqual([]);
+      lobbies.appendLobby(lobby);
+
+      removeLobby(leaderId);
+
+      expect(spyRemove).toHaveBeenCalled();
     });
   });
 });
