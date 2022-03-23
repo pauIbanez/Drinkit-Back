@@ -1,11 +1,5 @@
-const { Lobbies } = require("./Lobbies");
 const { createLobby, removeLobby } = require("./lobbiesLiveDatabase");
-
-const mockLobbies = new Lobbies();
-
-jest.mock("./Lobbies", () => ({
-  lobbies: mockLobbies,
-}));
+const AllLobbies = require("./Lobbies");
 
 describe("Given createLobby", () => {
   describe("When it's intanciated passing a piramide game and a leader", () => {
@@ -18,11 +12,21 @@ describe("Given createLobby", () => {
       };
       const game = "piramide";
 
+      const mockLobbies = new AllLobbies.Lobbies();
+      AllLobbies.lobbies = mockLobbies;
+
       createLobby(game, leader, "roomid");
 
-      expect(lobbies).toEqual(expectedLobbies);
+      const expectedLobbies = [
+        expect.objectContaining({
+          id: "roomId",
+          leader: {
+            id: "id",
+          },
+        }),
+      ];
 
-      lobbies.length = 0;
+      expect(mockLobbies.lobbies).toEqual(expectedLobbies);
     });
   });
 });
