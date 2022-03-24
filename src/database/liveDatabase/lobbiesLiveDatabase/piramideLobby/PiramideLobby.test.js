@@ -519,4 +519,36 @@ describe("Given piramideLobby.recieveMessage", () => {
       expect(leader.connection.send).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("When it's instanciated passing a message with type addModifier", () => {
+    test("Then it should should add the modifier", () => {
+      const modifierId = "modifierId";
+      const message = {
+        type: piramideRequestTypes.addModifier,
+        modifierId,
+      };
+
+      piramideLobby.recieveMessage(message);
+
+      expect(piramideLobby.modifiers).toContain(modifierId);
+      expect(leader.connection.send).toHaveBeenCalledTimes(1);
+
+      piramideLobby.removeModifier(modifierId);
+    });
+  });
+
+  describe("When it's instanciated passing a message with type removeModifier", () => {
+    test("Then it should should remove the modifier", () => {
+      const modifierId = "modifierId";
+      const message = {
+        type: piramideRequestTypes.removeModifier,
+        modifierId,
+      };
+
+      piramideLobby.addModifier(modifierId);
+      piramideLobby.recieveMessage(message);
+      expect(piramideLobby.modifiers).not.toContain(modifierId);
+      expect(leader.connection.send).toHaveBeenCalledTimes(1);
+    });
+  });
 });
