@@ -493,4 +493,30 @@ describe("Given piramideLobby.recieveMessage", () => {
       expect(leader.connection.send).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe("When it's instanciated passing a message with type toggleJokers", () => {
+    test("Then it should should toggle jokers", () => {
+      const message = {
+        type: piramideRequestTypes.toggleJokers,
+      };
+
+      piramideLobby.recieveMessage(message);
+
+      expect(piramideLobby.jokers).toBe(true);
+      expect(leader.connection.send).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("When it's instanciated passing a message with type toggleLeftovers", () => {
+    test("Then it should should toggle leftovers", () => {
+      const message = {
+        type: piramideRequestTypes.toggleLeftovers,
+      };
+
+      piramideLobby.recieveMessage(message);
+
+      expect(piramideLobby.jokers).toBe(true);
+      expect(leader.connection.send).toHaveBeenCalledTimes(1);
+    });
+  });
 });
