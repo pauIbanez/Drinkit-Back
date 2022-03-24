@@ -1,6 +1,3 @@
-const {
-  connectedUsers,
-} = require("../../database/liveDatabase/userLiveDatabase/userLiveDatabase");
 const User = require("../../database/models/User");
 const connectionRouter = require("./connectionRouter/connectionRouter");
 const lobbyRouter = require("./lobbyRouter/lobbyRouter");
@@ -21,17 +18,6 @@ describe("Given router", () => {
   });
 
   describe("When it's intanciated passing a message with the reason as 'lobby'", () => {
-    beforeEach(() => {
-      connectedUsers.push({
-        id: "playerId",
-        profile: {},
-        connection: {},
-      });
-    });
-
-    afterEach(() => {
-      connectedUsers.splice(0, connectedUsers.length - 1);
-    });
     test("Then it should call lobbyRouter", async () => {
       const message = {
         reason: "lobby",
