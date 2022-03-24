@@ -555,7 +555,7 @@ describe("Given piramideLobby.recieveMessage", () => {
 
 describe("Given piramideLobby.sendMessage", () => {
   const lobbyConfig = {
-    twoDecks: false,
+    twoDecks: true,
     jokers: false,
     leftovers: false,
     modifiers: [],
