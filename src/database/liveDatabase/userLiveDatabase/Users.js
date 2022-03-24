@@ -17,10 +17,7 @@ class Users {
     this.users = newUsers;
   };
 
-  findUser = (userId) => {
-    const foundUser = this.users.find((user) => user.id === userId);
-    return foundUser;
-  };
+  findUser = (userId) => this.users.find((user) => user.id === userId);
 }
 
 const users = new Users();
