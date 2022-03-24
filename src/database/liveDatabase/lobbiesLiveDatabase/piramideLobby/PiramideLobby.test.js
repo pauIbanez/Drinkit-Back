@@ -89,3 +89,97 @@ describe("Given PiramideLobby constructor", () => {
     });
   });
 });
+
+describe("Given piramideLobby.appendPlayer", () => {
+  describe("When it's instanciated passing a player", () => {
+    test("Then it should call all users connection.send and add it to connectedPlayers", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const otherPlayer = {
+        id: "otherId",
+        profile: {
+          username: "sdasda",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.appendPlayer(leader);
+      piramideLobby.appendPlayer(otherPlayer);
+
+      expect(leader.connection.send).toHaveBeenCalledTimes(2);
+      expect(otherPlayer.connection.send).toHaveBeenCalled();
+      expect(piramideLobby.connectedPlayers).toContain(leader);
+      expect(piramideLobby.connectedPlayers).toContain(otherPlayer);
+    });
+  });
+});
+
+describe("Given piramideLobby.removePlayer", () => {
+  describe("When it's instanciated passing a player id", () => {
+    test("Then it should call all users connection.send and remove the player form the list", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const otherPlayer = {
+        id: "otherId",
+        profile: {
+          username: "sdasda",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.appendPlayer(leader);
+      piramideLobby.appendPlayer(otherPlayer);
+
+      piramideLobby.removePlayer(otherPlayer.id);
+
+      expect(leader.connection.send).toHaveBeenCalledTimes(3);
+      expect(otherPlayer.connection.send).toHaveBeenCalledTimes(1);
+    });
+  });
+});
