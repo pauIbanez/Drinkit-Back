@@ -1,8 +1,7 @@
 /* eslint-disable no-case-declarations */
 const { getId, liberateId } = require("./sharedIds");
 const PiramideLobby = require("./piramideLobby/PiramideLobby");
-
-let lobbies = [];
+const { lobbies } = require("./Lobbies");
 
 const createLobby = (game, leader, roomId) => {
   const reference = {
@@ -27,14 +26,7 @@ const createLobby = (game, leader, roomId) => {
         reference
       );
 
-      const lobbyToStore = {
-        type: game,
-        id: reference.id,
-        leader,
-        lobby: piramideLobby,
-      };
-
-      lobbies.push(lobbyToStore);
+      lobbies.appendLobby(piramideLobby);
       break;
 
     default:
@@ -43,11 +35,11 @@ const createLobby = (game, leader, roomId) => {
 };
 
 const removeLobby = (leaderId) => {
-  const foundLobby = lobbies.find(({ leader: { id } }) => id === leaderId);
-  const newLobbies = lobbies.filter(({ leader: { id } }) => id !== leaderId);
+  const foundLobby = lobbies.findLobbyByLeader(leaderId);
+
   liberateId(foundLobby.sharedId);
-  lobbies = [...newLobbies];
-  return lobbies;
+
+  lobbies.removeLobby(foundLobby.id);
 };
 
 module.exports = { createLobby, removeLobby, lobbies };

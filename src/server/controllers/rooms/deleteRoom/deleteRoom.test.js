@@ -1,18 +1,16 @@
 const {
-  lobbies,
+  removeLobby,
 } = require("../../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
 const Room = require("../../../../database/models/Room");
 const deleteRoom = require("./deleteRoom");
 
+jest.mock(
+  "../../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase"
+);
+
 describe("Given deleteRoom", () => {
   describe("when it recieves a req with the user and everything goes ok", () => {
-    test("Then it should call res.json with an empty object", async () => {
-      lobbies.push({
-        leader: {
-          id: "userId",
-        },
-      });
-
+    test("Then it should call res.json with an empty object and call removeLobby", async () => {
       const req = {
         user: {
           id: "userId",
@@ -32,6 +30,7 @@ describe("Given deleteRoom", () => {
 
       await deleteRoom(req, res);
 
+      expect(removeLobby).toHaveBeenCalledWith(req.user.id);
       expect(res.json).toHaveBeenCalledWith({});
     });
   });

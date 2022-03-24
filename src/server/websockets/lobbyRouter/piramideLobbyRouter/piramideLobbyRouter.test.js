@@ -1,31 +1,24 @@
 const {
-  connectedUsers,
-} = require("../../../../database/liveDatabase/userLiveDatabase/userLiveDatabase");
+  users,
+} = require("../../../../database/liveDatabase/userLiveDatabase/Users");
 const piramideLobbyRouter = require("./piramideLobbyRouter");
 
 describe("Given piramideLobbyRouter", () => {
-  beforeEach(() => {
-    connectedUsers.push({
-      id: "userId",
-    });
-  });
   describe("When it's passed a messagewithout type", () => {
     test("Then it should so nothing", () => {
       const message = {};
 
-      const lobbyInstance = {
-        lobby: {
-          appendPlayer: jest.fn(),
-        },
+      const lobby = {
+        appendPlayer: jest.fn(),
       };
 
       const player = {
         id: "userId",
       };
 
-      piramideLobbyRouter(message, lobbyInstance, player);
+      piramideLobbyRouter(message, lobby, player);
 
-      expect(lobbyInstance.lobby.appendPlayer).not.toHaveBeenCalled();
+      expect(lobby.appendPlayer).not.toHaveBeenCalled();
     });
   });
 
@@ -35,19 +28,19 @@ describe("Given piramideLobbyRouter", () => {
         type: "join",
       };
 
-      const lobbyInstance = {
-        lobby: {
-          appendPlayer: jest.fn(),
-        },
+      const lobby = {
+        appendPlayer: jest.fn(),
       };
 
       const player = {
         id: "userId",
       };
 
-      piramideLobbyRouter(message, lobbyInstance, player);
+      users.appendUser(player);
 
-      expect(lobbyInstance.lobby.appendPlayer).toHaveBeenCalledWith(player);
+      piramideLobbyRouter(message, lobby, player);
+
+      expect(lobby.appendPlayer).toHaveBeenCalledWith(player);
     });
   });
 });

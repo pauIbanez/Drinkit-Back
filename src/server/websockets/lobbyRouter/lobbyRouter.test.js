@@ -1,21 +1,12 @@
 const {
   lobbies,
-} = require("../../../database/liveDatabase/lobbiesLiveDatabase/lobbiesLiveDatabase");
+} = require("../../../database/liveDatabase/lobbiesLiveDatabase/Lobbies");
 const lobbyRouter = require("./lobbyRouter");
 const piramideLobbyRouter = require("./piramideLobbyRouter/piramideLobbyRouter");
 
 jest.mock("./piramideLobbyRouter/piramideLobbyRouter");
 
 describe("Given lobbyRouter", () => {
-  beforeEach(() => {
-    lobbies.push({
-      id: "lobbyId",
-    });
-  });
-
-  afterEach(() => {
-    lobbies.splice(0, lobbies.length - 1);
-  });
   describe("When it's instanciated passing a message withoug a valid lobby", () => {
     test("Then it should call connection.send with an error", () => {
       const message = {
@@ -65,6 +56,8 @@ describe("Given lobbyRouter", () => {
       const expectedLobby = {
         id: "lobbyId",
       };
+
+      jest.spyOn(lobbies, "findLobby").mockReturnValue(expectedLobby);
       lobbyRouter(message, null, player);
 
       expect(piramideLobbyRouter).toHaveBeenCalledWith(
