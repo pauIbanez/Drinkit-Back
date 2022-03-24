@@ -17,17 +17,10 @@ class Lobbies {
     debug(chalk.yellowBright(`Lobby removed | ${lobbyId}`));
   };
 
-  findLobby = (lobbyId) => {
-    const foundLobby = this.lobbies.find((lobby) => lobby.id === lobbyId);
-    return foundLobby;
-  };
+  findLobby = (lobbyId) => this.lobbies.find((lobby) => lobby.id === lobbyId);
 
-  findLobbyByLeader = (leaderId) => {
-    const foundLobby = this.lobbies.find(
-      (lobby) => lobby.leader.id === leaderId
-    );
-    return foundLobby;
-  };
+  findLobbyByLeader = (leaderId) =>
+    this.lobbies.find((lobby) => lobby.leader.id === leaderId);
 }
 
 const lobbies = new Lobbies();
