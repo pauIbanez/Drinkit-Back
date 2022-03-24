@@ -282,3 +282,155 @@ describe("Given piramideLobby.toggleLeftovers", () => {
     });
   });
 });
+
+describe("Given piramideLobby.addModifier", () => {
+  describe("When it's instanciated passing a modifierId", () => {
+    test("Then the modifeirs should contain the modifierId", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const modifierId = "id";
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.addModifier(modifierId);
+
+      expect(piramideLobby.modifiers).toContain(modifierId);
+    });
+  });
+
+  describe("When it's instanciated passing a modifierId that is already in the lobby", () => {
+    test("Then the modifeirs should throw an error", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+      const expectedError = expect.objectContaining({
+        message: "Lobby already contains this modifier",
+      });
+      const modifierId = "id";
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.addModifier(modifierId);
+
+      const mockHandler = jest.fn();
+      try {
+        piramideLobby.addModifier(modifierId);
+      } catch (error) {
+        mockHandler(error);
+      }
+
+      expect(mockHandler).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given piramideLobby.removeModifier", () => {
+  describe("When it's instanciated passing a modifierId", () => {
+    test("Then the modifeirs should not contain the modifierId", () => {
+      const modifierId = "id";
+
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [modifierId],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.removeModifier(modifierId);
+
+      expect(piramideLobby.modifiers).not.toContain(modifierId);
+    });
+  });
+
+  describe("When it's instanciated passing a modifierId that is not in the lobby", () => {
+    test("Then the modifeirs should throw an error", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+      const expectedError = expect.objectContaining({
+        message: "Cannot remove missing modifier",
+      });
+      const modifierId = "id";
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      const mockHandler = jest.fn();
+      try {
+        piramideLobby.removeModifier(modifierId);
+      } catch (error) {
+        mockHandler(error);
+      }
+
+      expect(mockHandler).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
