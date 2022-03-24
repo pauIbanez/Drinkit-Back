@@ -552,3 +552,45 @@ describe("Given piramideLobby.recieveMessage", () => {
     });
   });
 });
+
+describe("Given piramideLobby.sendMessage", () => {
+  const lobbyConfig = {
+    twoDecks: false,
+    jokers: false,
+    leftovers: false,
+    modifiers: [],
+  };
+  const reference = {
+    id: "id",
+    sharedId: "sharedId",
+  };
+
+  const leader = {
+    id: "leaderId",
+    profile: {
+      username: "leader",
+    },
+    connection: {
+      send: jest.fn(),
+    },
+  };
+
+  let piramideLobby;
+  beforeAll(() => {
+    piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+    piramideLobby.appendPlayer(leader);
+  });
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("When it's instanciated passing a message without a known type", () => {
+    test("Then it should should not explode", () => {
+      const message = {};
+
+      piramideLobby.sendMessage(message);
+
+      expect(leader.connection.send).not.toHaveBeenCalled();
+    });
+  });
+});
