@@ -183,3 +183,102 @@ describe("Given piramideLobby.removePlayer", () => {
     });
   });
 });
+
+describe("Given piramideLobby.toggeleDecks", () => {
+  describe("When it's instanciated and twoDecks was at flase", () => {
+    test("Then twoDecks should be true", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.toggleDecks();
+
+      expect(piramideLobby.twoDecks).toBe(true);
+    });
+  });
+});
+
+describe("Given piramideLobby.toggleJokers", () => {
+  describe("When it's instanciated and jokers was at flase", () => {
+    test("Then jokers should be true", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.toggleJokers();
+
+      expect(piramideLobby.jokers).toBe(true);
+    });
+  });
+});
+
+describe("Given piramideLobby.toggleLeftovers", () => {
+  describe("When it's instanciated and leftovers was at flase", () => {
+    test("Then leftovers should be true", () => {
+      const lobbyConfig = {
+        twoDecks: false,
+        jokers: false,
+        leftovers: false,
+        modifiers: [],
+      };
+      const reference = {
+        id: "id",
+        sharedId: "sharedId",
+      };
+
+      const leader = {
+        id: "leaderId",
+        profile: {
+          username: "leader",
+        },
+        connection: {
+          send: jest.fn(),
+        },
+      };
+
+      const piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+
+      piramideLobby.toggleLeftovers();
+
+      expect(piramideLobby.leftovers).toBe(true);
+    });
+  });
+});
