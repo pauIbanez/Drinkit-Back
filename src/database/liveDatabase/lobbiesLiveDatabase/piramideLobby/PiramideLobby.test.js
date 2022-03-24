@@ -1,4 +1,5 @@
 const PiramideLobby = require("./PiramideLobby");
+const { piramideRequestTypes } = require("./piramideLobbyMessageTypes");
 
 describe("Given PiramideLobby constructor", () => {
   describe("When it's instanciated passing a lobbyConfig, a leader and a reference", () => {
@@ -431,6 +432,65 @@ describe("Given piramideLobby.removeModifier", () => {
       }
 
       expect(mockHandler).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given piramideLobby.recieveMessage", () => {
+  const lobbyConfig = {
+    twoDecks: false,
+    jokers: false,
+    leftovers: false,
+    modifiers: [],
+  };
+  const reference = {
+    id: "id",
+    sharedId: "sharedId",
+  };
+
+  const leader = {
+    id: "leaderId",
+    profile: {
+      username: "leader",
+    },
+    connection: {
+      send: jest.fn(),
+    },
+  };
+
+  let piramideLobby;
+  beforeAll(() => {
+    piramideLobby = new PiramideLobby(lobbyConfig, leader, reference);
+    piramideLobby.appendPlayer(leader);
+  });
+
+  beforeEach(() => {
+    jest.resetAllMocks();
+  });
+  describe("When it's instanciated passing a message without a known type", () => {
+    test("Then it should should not explode", () => {
+      const message = {
+        requester: {
+          clientId: leader.id,
+        },
+      };
+
+      piramideLobby.recieveMessage(message);
+
+      expect(leader.connection.send).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("When it's instanciated passing a message with type toggleDecks", () => {
+    test("Then it should should toggle twoDecks", () => {
+      const message = {
+        type: piramideRequestTypes.toggleTwoDecks,
+      };
+
+      piramideLobby.recieveMessage(message);
+
+      expect(piramideLobby.twoDecks).toBe(true);
+      expect(leader.connection.send).toHaveBeenCalledTimes(1);
     });
   });
 });

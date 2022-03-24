@@ -113,7 +113,7 @@ class PiramideLobby {
   recieveMessage(request) {
     switch (request.type) {
       case piramideRequestTypes.toggleTwoDecks:
-        this.toggleTwoDecks();
+        this.toggleDecks();
         break;
 
       case piramideRequestTypes.toggleJokers:
@@ -132,10 +132,6 @@ class PiramideLobby {
         this.removeModifier(request.modifierId);
         break;
       default:
-        this.sendMessage({
-          requester: request.clientId,
-          type: piramideResponseTypes.unknownType,
-        });
         return;
     }
 
@@ -166,12 +162,6 @@ class PiramideLobby {
         this.connectedPlayers.forEach(({ connection }) => {
           connection.send(JSON.stringify(this.getState()));
         });
-        break;
-
-      case piramideResponseTypes.unknownType:
-        this.connectedPlayers[message.requester].send(
-          JSON.stringify({ error: "Unkown type" })
-        );
         break;
 
       default:
