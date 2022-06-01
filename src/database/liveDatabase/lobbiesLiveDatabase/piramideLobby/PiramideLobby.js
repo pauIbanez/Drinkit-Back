@@ -153,6 +153,7 @@ class PiramideLobby {
       jokers: this.jokers,
       leftovers: this.leftovers,
       modifiers: this.modifiers,
+      sharedId: this.sharedId,
     };
   }
 

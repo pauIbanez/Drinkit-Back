@@ -17,7 +17,10 @@ class Lobbies {
     debug(chalk.yellowBright(`Lobby removed | ${lobbyId}`));
   };
 
-  findLobby = (lobbyId) => this.lobbies.find((lobby) => lobby.id === lobbyId);
+  findLobby = (lobbyId) =>
+    this.lobbies.find(
+      (lobby) => lobby.id === lobbyId || lobby.sharedId === lobbyId
+    );
 
   findLobbyByLeader = (leaderId) =>
     this.lobbies.find((lobby) => lobby.leader.id === leaderId);
