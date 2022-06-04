@@ -43,4 +43,26 @@ describe("Given piramideLobbyRouter", () => {
       expect(lobby.appendPlayer).toHaveBeenCalledWith(player);
     });
   });
+
+  describe("When it's passed a message with type leave and a lobby", () => {
+    test("Then it should call the lobby's remove player with the playerId", () => {
+      const message = {
+        type: "leave",
+      };
+
+      const lobby = {
+        removePlayer: jest.fn(),
+      };
+
+      const player = {
+        id: "userId",
+      };
+
+      users.appendUser(player);
+
+      piramideLobbyRouter(message, lobby, player);
+
+      expect(lobby.removePlayer).toHaveBeenCalledWith(player.id);
+    });
+  });
 });
