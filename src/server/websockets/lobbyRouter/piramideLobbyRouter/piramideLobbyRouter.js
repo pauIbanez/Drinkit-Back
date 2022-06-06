@@ -23,6 +23,11 @@ const piramideLobbyRouter = (message, lobby, player) => {
       leaveUser.inLobby = false;
       leaveUser.lobby = null;
       break;
+
+    case "settings":
+      lobby.appendSettings(message.settings);
+      break;
+
     default:
       break;
   }
