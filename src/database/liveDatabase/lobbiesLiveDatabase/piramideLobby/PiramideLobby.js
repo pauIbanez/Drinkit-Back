@@ -80,6 +80,14 @@ class PiramideLobby {
     this.sendMessage({ type: piramideResponseTypes.sendState });
   }
 
+  appendSettings(settings) {
+    this.twoDecks = settings.twoDecks;
+    this.jokers = settings.jokers;
+    this.leftovers = settings.leftovers;
+
+    this.sendMessage({ type: piramideResponseTypes.sendState });
+  }
+
   toggleDecks() {
     this.twoDecks = !this.twoDecks;
   }
